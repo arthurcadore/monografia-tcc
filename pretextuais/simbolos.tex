@@ -63,10 +63,25 @@
 {Tn}
 {\ensuremath{n}}
 
+% xi - componente cossenoidal utilizada na modulação do , canal $I$
+\glsxtrnewsymbol[description={Portadora cossenoidal utilizada na modulação do, canal $I$}]
+{xi}
+{\ensuremath{x_i(t)}}
+
+% yq - componente senoidal utilizada na modulação do, canal $Q$
+\glsxtrnewsymbol[description={Portadora senoidal utilizada na modulação do, canal $Q$}]
+{yq}
+{\ensuremath{y_q(t)}}
+
 % MHz megahertz
 \glsxtrnewsymbol[description={\textit{Megahertz}}]
 {mhz}
 {\ensuremath{MHz}}
+
+% kHz kilohertz
+\glsxtrnewsymbol[description={\textit{Kilohertz}}]
+{khz}
+{\ensuremath{kHz}}
 
 % Sn - Preamble sequence
 \glsxtrnewsymbol[description={Sequêcia de preâmbulo, $S[n] = 2BEEEEBF_{16}$, (ARGOS-3)}]
@@ -74,12 +89,12 @@
 {\ensuremath{S[n]}}
 
 % SIn - Preamble sequence channel I
-\glsxtrnewsymbol[description={Sequência de preâmbulo do canal I}]
+\glsxtrnewsymbol[description={Sequência de preâmbulo do, canal $I$}]
 {SIn}
 {\ensuremath{S_I[n]}}
 
 % SQn - Preamble sequence channel Q
-\glsxtrnewsymbol[description={Sequência de preâmbulo do canal Q}]
+\glsxtrnewsymbol[description={Sequência de preâmbulo do, canal $Q$}]
 {SQn}
 {\ensuremath{S_Q[n]}}
 
@@ -138,20 +153,60 @@
 {fs}
 {\ensuremath{f_s}}
 
-% dI - sinal modulado canal I
-\glsxtrnewsymbol[description={Componente I do sinal modulado em banda base, em função de tempo $t$}]
+% dI - sinal modulado, canal $I$
+\glsxtrnewsymbol[description={Sinal modulado em banda base, canal $I$}]
 {dI}
 {\ensuremath{d_I(t)}}
 
-% dQ - sinal modulado canal Q
-\glsxtrnewsymbol[description={Componente Q do sinal modulado em banda base, em função de tempo $t$}]
+% dQ - sinal modulado, canal $Q$
+\glsxtrnewsymbol[description={Sinal modulado em banda base, canal $Q$}]
 {dQ}
 {\ensuremath{d_Q(t)}}
+
+% dI' - sinal demodulado, canal $I$
+\glsxtrnewsymbol[description={Sinal demodulado em banda base, canal $I$}]
+{dIprime}
+{\ensuremath{d_I'(t)}}
+
+% dQ' - sinal demodulado, canal $Q$
+\glsxtrnewsymbol[description={Sinal demodulado em banda base, canal $Q$}]
+{dQprime}
+{\ensuremath{d_Q'(t)}}
+
+% dX't - componente demodulada correspondente ao, canal $I$
+\glsxtrnewsymbol[description={Sinal filtrado (filtragem passa baixa), canal $I$}]
+{dXt}
+{\ensuremath{d_X'(t)}}
+
+% dY't - componente demodulada correspondente ao, canal $Q$
+\glsxtrnewsymbol[description={Sinal filtrado (filtragem passa baixa), canal $Q$}]
+{dYt}
+{\ensuremath{d_Y'(t)}}
+
+% I' - sinal demodulado, canal $I$
+\glsxtrnewsymbol[description={Sinal filtrado (filtragem casada), canal $I$}]
+{Iprime}
+{\ensuremath{I'(t)}}
+
+% Q' - sinal demodulado, canal $Q$
+\glsxtrnewsymbol[description={Sinal filtrado (filtragem casada), canal $Q$}]
+{Qprime}
+{\ensuremath{Q'(t)}}
 
 % g(t) - pulso de formatação
 \glsxtrnewsymbol[description={Resposta ao impulso do filtro de formatação}]
 {gt}
 {\ensuremath{g(t)}}
+
+% g(-t) - pulso de formatação invertido
+\glsxtrnewsymbol[description={Resposta ao impulso do filtro de formatação invertido (filtro casado)}]
+{gti}
+{\ensuremath{g(-t)}}
+
+% h(t) - resposta ao impulso do filtro passa baixa
+\glsxtrnewsymbol[description={Resposta ao impulso do filtro passa baixa}]
+{ht}
+{\ensuremath{h(t)}}
 
 % alpha - roll-off factor
 \glsxtrnewsymbol[description={Fator de roll-off do filtro RRC, $\alpha = 0.8$}]
@@ -174,12 +229,12 @@
 {\ensuremath{A}}
 
 % G_0 vetor gerador
-\glsxtrnewsymbol[description={Vetor gerador correspondente ao canal I, $G_0 = [121]_{10}$ (ARGOS-3)}]
+\glsxtrnewsymbol[description={Vetor gerador correspondente ao, canal $I$, $G_0 = [121]_{10}$ (ARGOS-3)}]
 {G0}
 {\ensuremath{G_0}}
 
 % G_1 vetor gerador
-\glsxtrnewsymbol[description={Vetor gerador correspondente ao canal Q, $G_1 = [91]_{10}$ (ARGOS-3)}]
+\glsxtrnewsymbol[description={Vetor gerador correspondente ao, canal $Q$, $G_1 = [91]_{10}$ (ARGOS-3)}]
 {G1}
 {\ensuremath{G_1}}
 
@@ -209,22 +264,42 @@
 {\ensuremath{v_t^{(1)}}}
 
 
-% Xn - sequência de bits embaralhados canal I
-\glsxtrnewsymbol[description={Sequência de bits embaralhados canal I}]
+% Xn - sequência de bits embaralhados, canal $I$
+\glsxtrnewsymbol[description={Sequência de bits embaralhados, canal $I$}]
 {Xn}
 {\ensuremath{X[n]}}
 
-% Yn - sequência de bits embaralhados canal Q
-\glsxtrnewsymbol[description={Sequência de bits embaralhados canal Q}]
+% Yn - sequência de bits embaralhados, canal $Q$
+\glsxtrnewsymbol[description={Sequência de bits embaralhados, canal $Q$}]
 {Yn}
 {\ensuremath{Y[n]}}
 
-% In - sequência de símbolos canal I
-\glsxtrnewsymbol[description={Sequência de símbolos canal I}]
+% In - sequência de símbolos, canal $I$
+\glsxtrnewsymbol[description={Sequência de símbolos, canal $I$}]
 {In}
 {\ensuremath{I[n]}} 
 
-% Qn - sequência de símbolos canal Q
-\glsxtrnewsymbol[description={Sequência de símbolos canal Q}]
+% Qn - sequência de símbolos, canal $Q$
+\glsxtrnewsymbol[description={Sequência de símbolos, canal $Q$}]
 {Qn}
 {\ensuremath{Q[n]}}
+
+% In' - sequência de símbolos decididos, canal $I$
+\glsxtrnewsymbol[description={Sequência de símbolos decididos, canal $I$}]
+{Inprime}
+{\ensuremath{I'[n]}}
+
+% Qn' - sequência de símbolos decididos, canal $Q$
+\glsxtrnewsymbol[description={Sequência de símbolos decididos, canal $Q$}]
+{Qnprime}
+{\ensuremath{Q'[n]}}
+
+% n - índice de amostra
+\glsxtrnewsymbol[description={Índice de amostra/simbolo}]
+{n}
+{\ensuremath{n}}
+
+% tau - delay inicial
+\glsxtrnewsymbol[description={Delay inicial para decisão de símbolos}]
+{tau}
+{\ensuremath{\tau}}

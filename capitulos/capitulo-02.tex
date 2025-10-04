@@ -56,7 +56,7 @@ A comunicação por satélites desempenha um papel fundamental na coleta e disse
 
 Esses satélites recebem sinais transmitidos pelas \gls{PCD} na faixa de frequência UHF (401,62 a 401,65 \gls{mhz}) e os retransmitem para as \gls{ETR} localizadas em solo, nas faixas de Banda-S (2267,5 \gls{mhz}). Como operam em órbitas baixas, esses satélites realizam aproximadamente 14 revoluções por dia sobre o território nacional, o que permite ampla cobertura espacial.
 
-Apesar da ampla cobertura, a comunicação com satélites de órbita baixa apresenta um grande desafio técnico, sendo a necessidade de visada simultânea entre a \gls{PCD} transmissora e o satélite, o que limita a janela de transmissão e impõe restrições na coleta contínua de dados. Além disso, o movimento relativo entre a \gls{PCD} e o satélite provoca o chamado efeito Doppler, responsável por deslocamentos na frequência do sinal recebido, podendo atingir até ±79,4 kHz. Esse desvio precisa ser compensado para garantir a correta demodulação do sinal \cite{rae2005detector, rodrigues_demodulador_2018}.
+Apesar da ampla cobertura, a comunicação com satélites de órbita baixa apresenta um grande desafio técnico, sendo a necessidade de visada simultânea entre a \gls{PCD} transmissora e o satélite, o que limita a janela de transmissão e impõe restrições na coleta contínua de dados. Além disso, o movimento relativo entre a \gls{PCD} e o satélite provoca o chamado efeito Doppler, responsável por deslocamentos na frequência do sinal recebido, podendo atingir até ±79,4 \gls{khz}. Esse desvio precisa ser compensado para garantir a correta demodulação do sinal \cite{rae2005detector, rodrigues_demodulador_2018}.
 
 A confiabilidade do enlace também é impactada por fatores como atenuação no espaço livre, ruídos térmicos, e variações atmosféricas. Para compensar esses fatores, são necessárias técnicas específicas de modulação, sincronização, codificação de dados e planejamento de enlace, de modo a garantir a confiabilidade das mensagens transmitidas.
 
@@ -343,11 +343,10 @@ O embaralhador é utilizado para garantir que os dados sejam melhor distribuído
     
 \end{figure}
 
-\subsection{Multiplexador}
 
 \subsection{Codificação de Linha}
 
-Em seguida, os vetores de bits embaralhados \gls{Xn} e \gls{Yn} precisam ser convertidos em vetores de simbolos, para isso é aplicada uma codificação de linha. O vetor \gls{Xn} é codificado utilizando a técnica \gls{NRZ}, enquanto o vetor \gls{Yn} é codificado utilizando a técnica \gls{Manchester} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+Em seguida, os vetores de bits embaralhados \gls{Xn} e \gls{Yn}, já multiplexados com os vetores de preâmbulo \gls{SIn} e \gls{SQn},precisam ser convertidos em vetores de simbolos, para isso é aplicada uma codificação de linha. O vetor \gls{Xn} é codificado utilizando a técnica \gls{NRZ}, enquanto o vetor \gls{Yn} é codificado utilizando a técnica \gls{Manchester} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 A codificação \gls{NRZ} é realizada removendo a componente DC da sequência de entrada, ou seja, no vetor \gls{Xn} cada bit '1' é representado por '+1' e cada bit '0' é representado por '-1'. Esse processo pode ser descrito pela expressão
 
@@ -389,8 +388,8 @@ Para aplicar a modulação de pulso e gerar os sinais analógicos \gls{dI} e \gl
 \vspace{-2em}
 \begin{equation}
     \begin{array}{c@{\quad\text{e}\quad}c}
-        d_I(t) = \sum_{n} I[n] \cdot g(t - nT_b) &
-        d_Q(t) = \sum_{n} Q[n] \cdot g(t - nT_b)
+        d_I'(t) = \sum_{n} I[n] \cdot g(t - nT_b) &
+        d_Q'(t) = \sum_{n} Q[n] \cdot g(t - nT_b)
     \end{array} \text{ ,}
 \end{equation}
 
@@ -426,7 +425,7 @@ No processo de modulação QPSK, o sinal em fase \gls{dI} é multiplicado por um
 
 \vspace{-0.8em}
 \begin{equation}
-    s(t) = Ad_I (t) \cos(2\pi f_c t + \phi_0) - Ad_Q(t) \sin(2\pi f_c t + \phi_0) \text{ ,}
+    s(t) = A d_I'(t) \cos(2\pi f_c t + \phi_0) - Ad_Q'(t) \sin(2\pi f_c t + \phi_0) \text{ ,}
 \end{equation}
 
 \noindent onde \gls{A} é a amplitude do sinal modulado, \gls{fc} é a frequência da portadora, em torno de $401,625$ \gls{mhz} e \gls{phi0} é o desvio de fase inicial do sinal, que é considerado como zero ($\phi_0 = 0$).
@@ -481,3 +480,126 @@ A partir da amostras de \gls{xnk}, se calcula a potência em cada componente de 
 Em seguida, para cada índice \gls{k} do espectro calculado, é feita uma comparação com um limiar pré-definido \gls{Pt}, conforme foi apresentado anteriormente na \autoref{fig:portadora_pura_freq}. Caso a potência \gls{Pnk} seja maior que \gls{Pt}, a frequência é registrada pois existe a possibilidade de que uma portadora \gls{fn} esteja presente naquela frequência. 
 
 Por fim, no proximo segmento, $X_{n+1}[k]$, o sistema verifica se a frequência registrada no segmento anterior persiste, ou seja, se a potência de $k$ também é maior que o limiar \gls{Pt}, caso positivo, o sistema considera que a frequência \gls{fn} é a portadora \gls{fc} do sinal recebido e instância a cadeia de recepção passando \gls{fc} como parâmetro.
+
+
+
+\subsection{Demodulador Banda Passante}
+
+Para realizar a demodulação do sinal \gls{st} recebido retornando as componentes \gls{dXt} e \gls{dYt} em banda base, o sinal \gls{st} é multiplicado por duas portadoras ortogonais, \gls{xi} para demodular o canal \gls{cI} e \gls{yq} para demodular o canal \gls{cQ}. Assumindo sincronismo perfeito, o processo de demodulação para o canal \gls{cI} pode ser expresso como
+
+\vspace{-1.2em}
+\begin{equation}
+d_X'(t) = s(t) \cdot x_I(t) = \left[A \cdot d_I'(t) \cos(2\pi f_c t ) - A \cdot d_Q'(t) \sin(2\pi f_c t )\right] \cdot 2\cos(2\pi f_c t )
+\end{equation}
+\vspace{-0.8em}
+\begin{equation}
+    d_X'(t) =
+    \underbrace{A \cdot d_I'(t)}_{\text{Banda base}} + 
+    \underbrace{\left[
+        A \cdot d_I'(t) \cos(4\pi f_c t ) 
+        - A \cdot d_Q'(t) \sin(4\pi f_c t )
+    \right]}_{\text{Dobro da frequência $f_c$}} \text{ ,}
+\end{equation}
+
+\noindent onde \gls{dI} é o sinal banda base. O mesmo processo é realizado para o canal \gls{cQ}, que isola o sinal em quadratura \gls{dQ} da seguinte forma
+
+\vspace{-1.2em}
+\begin{equation}
+d_Y'(t) = s(t) \cdot y_Q(t) = \left[A \cdot d_I'(t) \cos(2\pi f_c t ) - A \cdot d_Q'(t) \sin(2\pi f_c t )\right] \cdot 2\sin(2\pi f_c t )
+\end{equation}
+\vspace{-0.8em}
+\begin{equation}
+    d_Y'(t) =  
+    \underbrace{A \cdot d_Q'(t)}_{\text{Banda base}} + 
+    \underbrace{\left[
+        A \cdot d_Q'(t) \cos(4\pi f_c t ) 
+        + A \cdot d_I'(t) \sin(4\pi f_c t )
+    \right]}_{\text{Dobro da frequência $f_c$}} \text{ .}
+\end{equation}
+
+A \autoref{fig:fft_produtos_com_portadoras} ilustra o processo de demodulação dos canais \gls{cI} e \gls{cQ}, onde os sinais multiplicados por \gls{xi} e \gls{yq} são apresentados no espectro, mostrando a presença dos sinais em banda base e as componentes de alta frequência resultantes da multiplicação com as portadoras (considerando um $f_c = 2 \text{\gls{khz}}$). \cite{cnes_services_and_message_formats_ed2_rev2_2006}
+
+\begin{figure}[ht]
+	\centering
+	\caption{Demodulação dos canais I e Q}\label{fig:fft_produtos_com_portadoras}
+	\includegraphics[width=\linewidth]{assets/fft_produtos_com_portadoras.pdf}
+\end{figure}
+
+
+\subsubsection{Filtragem passa baixa e Filtragem Casada}
+
+Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $1,5$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
+
+A \autoref{fig:espectros_filtragem_comparacao} apresenta o espectro dos sinais \gls{dIprime} e \gls{dQprime} antes e após a filtragem passa-baixa, bem como a resposta ao impulso \gls{ht} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Filtragem passa baixa de I e Q}\label{fig:espectros_filtragem_comparacao}
+	\includegraphics[width=\linewidth]{assets/espectros_filtragem_comparacao.pdf}
+    
+\end{figure}
+
+\subsubsection{Filtragem Casada}
+
+Os sinais \gls{dIprime} e \gls{dQprime} em banda base, e já filtrados por um \gls{LPF}, passam por um filtro casado \gls{MF}, que é utilizado para maximizar a relação sinal-ruído (\gls{SNR}). O filtro casado é ajustado para coincidir com o inverso do pulso  \gls{gti} utilizado na formatação do sinal na transmissão \cite{10555531840}. 
+
+O filtro casado é aplicado aos sinais \gls{dIprime} e \gls{dQprime} através da expressão
+
+\vspace{-1em}
+\begin{equation}
+    \begin{array}{c@{\quad\text{e}\quad}c}
+        I'(t) = d_I(t) * g(-t) &
+        Q'(t) = d_Q(t) * g(-t)
+    \end{array} \text{ .}
+\end{equation}
+
+
+A \autoref{fig:espectros_filtro_casado} apresenta o espectro dos sinais \gls{Iprime} e \gls{Qprime} após a filtragem casada, onde é possível observar a melhoria na relação sinal-ruído e a remoção de componentes indesejadas. 
+
+\begin{figure}[ht]
+	\centering
+	\caption{Filtragem casada de I e Q}\label{fig:espectros_filtro_casado}
+	\includegraphics[width=\linewidth]{assets/espectros_filtro_casado.pdf}
+\end{figure}
+
+
+\subsubsection{Decisão de simbolos}
+
+Uma vez com os sinais \gls{dIprime} e \gls{dQprime} filtrados, considerando sincronismo perfeito, o próximo passo é a decisão dos sinais em instantes de \gls{Tb} (instante ótimo de decisão) a partir de um delay inicial \gls{tau}, para recuperar os símbolos transmitidos. O processo de decisão pode ser expresso como
+
+\vspace{-1em}
+\begin{equation}
+    \begin{array}{c@{\quad\text{e}\quad}c}
+        I'[n] = d'_I(n \cdot T_b + \tau) & Q'[n] = d'_Q(n \cdot T_b + \tau)
+    \end{array} \text{ ,}
+\end{equation}
+
+\noindent onde \gls{n} é o índice de amostra, \gls{Tb} é o tempo de bit $1/R_b$ e \gls{tau} é o atraso inicial da decisão. A \autoref{fig:sinais_amostrados_pos_filtro_casado} apresenta os sinais amostrados \gls{Inprime} e \gls{Qnprime}. 
+
+\begin{figure}[ht]
+	\centering
+	\caption{Decisão de I e Q}\label{fig:sinais_amostrados_pos_filtro_casado}
+	\includegraphics[width=\linewidth]{assets/sinais_amostrados_pos_filtro_casado.pdf}
+    
+\end{figure}
+
+Os valores amostrados \gls{Inprime} e \gls{Qnprime} são então decididos, isto é, quantizados para valores discretos, correspondendo aos símbolos transmitidos. O mapeamento dos pares pode ser expressado como
+
+\begin{equation} 
+    I'[n] = \begin{cases}
+    +1, & \text{se } I'[n] \geq 0 \\
+    -1, & \text{se } I'[n] < 0
+    \end{cases}, \quad
+    Q'[n] = \begin{cases}
+    +1, & \text{se } Q'[n] \geq 0 \\
+    -1, & \text{se } Q'[n] < 0
+    \end{cases} \text{ ,}
+\end{equation}
+
+\noindent onde \gls{Inprime} e \gls{Qnprime} são os vetores simbolo. A \autoref{fig:comparacao_bits_recuperados} apresenta os simbolos decididos nos vetores \gls{Inprime} e \gls{Qnprime} após o processo de quantização, em comparação com os vetores originais \gls{In} e \gls{Qn} transmitidos.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Comparação dos vetores IQ decididos}\label{fig:comparacao_bits_recuperados}
+	\includegraphics[width=\linewidth]{assets/comparacao_bits_recuperados.pdf}
+\end{figure}
