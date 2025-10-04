@@ -603,3 +603,56 @@ Os valores amostrados \gls{Inprime} e \gls{Qnprime} são então decididos, isto 
 	\caption{Comparação dos vetores IQ decididos}\label{fig:comparacao_bits_recuperados}
 	\includegraphics[width=\linewidth]{assets/comparacao_bits_recuperados.pdf}
 \end{figure}
+
+\subsection{Decodificador de linha}
+
+Após a decisão dos símbolos, os vetores \gls{Inprime} e \gls{Qnprime} precisam ser convertidos de volta para a representação original dos bits. Para isso, são aplicadas as técnicas de decodificação de linha inversas às utilizadas na transmissão: \gls{NRZ} para o canal \gls{cI} e \gls{Manchester} para o canal \gls{cQ}. A decodificação \gls{NRZ} é realizada mapeando os valores '+1' para o bit '1' e '-1' para o bit '0', conforme
+
+\begin{equation}
+    X'[n] = 
+    \begin{cases}
+    1, & \text{se } I'[n] = +1 \\
+    0, & \text{se } I'[n] = -1
+    \end{cases} \text{ ,}
+\end{equation}
+
+
+\noindent resultando no vetor de bits \gls{Xnprime} correspondente ao canal \gls{cI}. O mesmo processo é aplicado ao canal \gls{cQ}, onde a decodificação \gls{Manchester} mapeia os pares de valores '+1,-1' para o bit '1' e '-1,+1' para o bit '0', conforme
+
+\begin{equation}
+    Y'[n] = 
+    \begin{cases}
+    1, & \text{se } Q'[n] = +1,-1 \\
+    0, & \text{se } Q'[n] = -1,+1
+    \end{cases} \text{ ,}
+\end{equation}
+
+\noindent resultando no vetor de bits \gls{Ynprime} correspondente ao canal \gls{cQ}. 
+
+\subsection{Desembaralhador}
+
+Após o processo de decodificação de linha, os dados vetores de bits \gls{Xnprime} e \gls{Ynprime} ainda encontram-se embaralhados, então é necessário realizar o desembaralhamento para restaurar a sequência original dos bits antes da decodificação convolucional \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+O desembaralhador utiliza a mesma estrutura lógica do embaralhador, porém executando a operação inversa de reorganização dos bits, com base em regras posicionais dependentes do índice dos bits \gls{n}. A \autoref{fig:desembaralhador} apresenta o diagrama de blocos do desembaralhador utilizado no \gls{PTT-A3}, que refaz a ordenação dos bits após a demodulação \cite{rodrigues_demodulador_2018}.
+
+\begin{figure}[ht]
+\centering
+\caption{Desembaralhador de dados para o ARGOS-3}\label{fig:desembaralhador}
+\includegraphics[width=\linewidth]{assets/desembaralhador.pdf}
+\end{figure}
+
+O processo de desembaralhamento retorna os vetores de bit, \gls{vt0prime} e \gls{vt1prime}, que correspondem aos dados codificados nos canais \gls{cI} e \gls{cQ}, respectivamente.
+
+\subsection{Decodificador convolucional}
+
+Após o desembaralhamento, os vetores \gls{vt0prime} e \gls{vt1prime} estão prontos para a decodificação convolucional. O algoritmo mais popularmente utilizado para essa etapa é o algoritmo de Viterbi, que implementa a decodificação \gls{MLD} para códigos convolucionais, calculando o caminho mais provável através de \gls{Hamming} para a mensagem recebida em relação à mensagem possível \cite{cnes_services_and_message_formats_ed2_rev2_2006, rodrigues_demodulador_2018}.
+
+No padrão \gls{ARGOS-III}, o código convolucional utilizado segue o padrão \gls{CCSDS} 131.1-G-2, que, por sua vez, possui uma distância livre conhecida de $\text{\gls{dfree}} = 10$. Quanto maior for o valor de \gls{dfree}, maior será a robustez do código e sua capacidade de detectar e corrigir erros.
+
+\noindent Assim, conforme o comparativo ilustrado na \autoref{fig:decodificador_convolucional} entre a transmissão \gls{QPSK} sem codificação e com codificação convolucional, o uso desta técnica na transmissão do sinal permite operar em valores de \gls{EbN0} menores em relação a não utilização do codificador, para a \gls{BER} visada pelo sistema, permitindo uso em ambientes com maior ruído para a mesma taxa de erro desejada.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Comparação de BER vs \gls{EbN0} utilizando codificação convolucional}\label{fig:decodificador_convolucional}
+	\includegraphics[width=\linewidth]{assets/convolutional.pdf}
+\end{figure}
