@@ -3,6 +3,11 @@
 {Rb}
 {\ensuremath{R_b}}
 
+% T_b tempo de bit
+\glsxtrnewsymbol[description={Tempo de bit, $T_b = 1/R_b$}]
+{Tb}
+{\ensuremath{T_b}}
+
 % Bps bits per second
 \glsxtrnewsymbol[description={\textit{Bits per second}}]
 {bps}
@@ -69,9 +74,54 @@
 {\ensuremath{PCD_{ID}}}
 
 % Sinal modulado
-\glsxtrnewsymbol[description={Sinal modulado em banda passante}]
+\glsxtrnewsymbol[description={Sinal modulado em banda passante, em função de tempo $t$}]
 {st}
 {\ensuremath{s(t)}}
+
+% t - tempo
+\glsxtrnewsymbol[description={Vetor de Tempo}]
+{t}
+{\ensuremath{t}}
+
+% f_s - frequência de amostragem
+\glsxtrnewsymbol[description={Frequência de amostragem, $f_s = 128\,\text{KHz}$}]
+{fs}
+{\ensuremath{f_s}}
+
+% dI - sinal modulado canal I
+\glsxtrnewsymbol[description={Componente I do sinal modulado em banda base, em função de tempo $t$}]
+{dI}
+{\ensuremath{d_I(t)}}
+
+% dQ - sinal modulado canal Q
+\glsxtrnewsymbol[description={Componente Q do sinal modulado em banda base, em função de tempo $t$}]
+{dQ}
+{\ensuremath{d_Q(t)}}
+
+% g(t) - pulso de formatação
+\glsxtrnewsymbol[description={Resposta ao impulso do filtro de formatação}]
+{gt}
+{\ensuremath{g(t)}}
+
+% alpha - roll-off factor
+\glsxtrnewsymbol[description={Fator de roll-off do filtro RRC, $\alpha = 0.8$}]
+{alpha}
+{\ensuremath{\alpha}}
+
+% W - largura de banda
+\glsxtrnewsymbol[description={Largura de banda do sinal modulado, $W = (1 + \alpha)/T_b$}]
+{W}
+{\ensuremath{W}}
+
+% phi_0 - desvio de fase inicial
+\glsxtrnewsymbol[description={Desvio de fase inicial do sinal modulado}]
+{phi0}
+{\ensuremath{\phi_0}}
+
+% A - amplitude do sinal
+\glsxtrnewsymbol[description={Amplitude do sinal modulado}]
+{A}
+{\ensuremath{A}}
 
 % G_0 vetor gerador
 \glsxtrnewsymbol[description={Vetor gerador correspondente ao canal I, $G_0 = [121]_{10}$ (ARGOS-3)}]
@@ -107,3 +157,24 @@
 \glsxtrnewsymbol[description={Saída do codificador convolucional correspondente a $G_1$}]
 {vt1}
 {\ensuremath{v_t^{(1)}}}
+
+
+% Xn - sequência de bits embaralhados canal I
+\glsxtrnewsymbol[description={Sequência de bits embaralhados canal I}]
+{Xn}
+{\ensuremath{X[n]}}
+
+% Yn - sequência de bits embaralhados canal Q
+\glsxtrnewsymbol[description={Sequência de bits embaralhados canal Q}]
+{Yn}
+{\ensuremath{Y[n]}}
+
+% In - sequência de símbolos canal I
+\glsxtrnewsymbol[description={Sequência de símbolos canal I}]
+{In}
+{\ensuremath{I[n]}} 
+
+% Qn - sequência de símbolos canal Q
+\glsxtrnewsymbol[description={Sequência de símbolos canal Q}]
+{Qn}
+{\ensuremath{Q[n]}}

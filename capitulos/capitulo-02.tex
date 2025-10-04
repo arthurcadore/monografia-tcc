@@ -330,3 +330,117 @@ Os vetores geradores são utilizados para definir a estrutura do registrado do c
 \end{figure}
 
 
+\subsection{Embaralhador}
+
+Após a codificação convolucional, os vetores de saída \gls{vt0} e \gls{vt1} são embaralhados para evitar padrões repetitivos, formando os vetores embaralhados \gls{Xn} e \gls{Yn}. O processo de embaralhamento é essencial para aumentar a robustez do sinal contra interferências e ruídos em rajada, pois os dados são espalhados ao longo da transmissão.
+
+O embaralhador é utilizado para garantir que os dados sejam melhor distribuídos diminuindo a correlação entre os bits de forma a aumentar a aleatoriedade antes da modulação \gls{QPSK}, o que permite atingir uma melhor característica espectral. Esse processo pode ser representado pelo diagrama de blocos apresentado na \autoref{fig:embaralhador} \cite{cnes_services_and_message_formats_ed2_rev2_2006, rodrigues_demodulador_2018}.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Embaralhador de dados para o ARGOS-3}\label{fig:embaralhador}
+	\includegraphics[width=\linewidth]{assets/scrambler.pdf}
+    
+\end{figure}
+
+\subsection{Multiplexador}
+
+\subsection{Codificação de Linha}
+
+Em seguida, os vetores de bits embaralhados \gls{Xn} e \gls{Yn} precisam ser convertidos em vetores de simbolos, para isso é aplicada uma codificação de linha. O vetor \gls{Xn} é codificado utilizando a técnica \gls{NRZ}, enquanto o vetor \gls{Yn} é codificado utilizando a técnica \gls{Manchester} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+A codificação \gls{NRZ} é realizada removendo a componente DC da sequência de entrada, ou seja, no vetor \gls{Xn} cada bit '1' é representado por '+1' e cada bit '0' é representado por '-1'. Esse processo pode ser descrito pela expressão
+
+\begin{equation}
+I[n] = 
+\begin{cases}
++1, +1, & \text{se } X[n] = 1 \\
+-1, -1, & \text{se } X[n] = 0 \text{ ,}
+\end{cases}
+\end{equation}
+
+\noindent resultando em um vetor de saída \gls{In}, neste caso com o dobro do comprimento do vetor de entrada (para manter o mesmo comprimento do vetor \gls{Qn}). 
+
+Para o vetor \gls{Yn}, é aplicada a codificação \gls{Manchester}, onde cada bit de entrada é representado por dois simbolos de saída, alternando entre '-1' e '+1'.  A codificação \gls{Manchester} é utilizada para garantir que haja transições de nível no sinal mesmo em sequências longas de bits iguais, essas transições refletem em mais trocas de simbolos na modulação \gls{QPSK}. Esse processo pode ser descrito pela expressão
+
+\begin{equation}
+Y[n] = 
+\begin{cases}
++1,-1, & \text{se } Y[n] = 1 \\
+-1,+1, & \text{se } Y[n] = 0 \text{ ,}
+\end{cases}
+\end{equation}
+
+\noindent resultando assim em um vetor de saída \gls{Qn} codificado em Manchester.
+\begin{figure}[ht]
+	\centering
+	\caption{Codificação NRZ e Manchester dos vetores I e Q}\label{fig:codificacao_linha}
+	\includegraphics[width=\linewidth]{assets/codificacao_linha.pdf}
+\end{figure}
+
+
+\subsection{Modulação de Pulso}
+
+Uma vez com os vetores de simbolo \gls{In} e \gls{Qn}, é aplicada a modulação de pulso, isto é, os vetores de simbolo são superamostrados, em função de \gls{fs} e filtrados para formar uma sequência contínua de símbolos ao longo de \gls{t}, onde cada bit de informação é transmitido durante um período de tempo $\text{ \gls{Tb}} = 1/ \text{\gls{Rb}}$ (tempo de bit), definido com base na taxa de bit \gls{Rb} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+
+Para aplicar a modulação de pulso e gerar os sinais analógicos \gls{dI} e \gls{dQ}, os vetores de simbolo são multiplicados com um pulso com resposta ao impulso \gls{gt}. A formatação é dada por 
+
+\vspace{-2em}
+\begin{equation}
+    \begin{array}{c@{\quad\text{e}\quad}c}
+        d_I(t) = \sum_{n} I[n] \cdot g(t - nT_b) &
+        d_Q(t) = \sum_{n} Q[n] \cdot g(t - nT_b)
+    \end{array} \text{ ,}
+\end{equation}
+
+\noindent onde é utilizado um pulso \gls{gt} do tipo (\gls{RRC}), definido por
+
+\begin{equation}
+    g(t) = \frac{(1-\alpha) \text{sinc}((1- \alpha) t / T_b) + \alpha(4/\pi) \cos(\pi(1 + \alpha)t/T_b) }{1 - (4\alpha )^2}
+\end{equation}
+
+\noindent onde \gls{alpha} é o fator de roll-off do pulso, que controla a largura de banda \gls{W} do sinal modulado. Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}.
+
+A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:pulso_rrc_e_sinais_iq}, onde a resposta ao impulso \gls{gt} é apresentada em conjunto com os sinais \gls{dI} e \gls{dQ}. 
+
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth]{assets/pulso_rrc_e_sinais_iq.pdf}
+	\caption{Formatação dos pares IQ}\label{fig:pulso_rrc_e_sinais_iq}
+\end{figure}
+
+
+
+\subsection{Modulação em banda passante} 
+
+Uma vez com os pares de sinal \gls{dI} e \gls{dQ} correspondentes a cada canal, pode-se realizar a modulação em banda passante para transmissão do sinal \gls{st}. Na \autoref{fig:modulador_qpsk} é ilustrado o diagrama de blocos do modulador \gls{QPSK} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Modulador QPSK}\label{fig:modulador_qpsk}
+	\includegraphics[width=\linewidth]{assets/modulador.pdf}
+    
+\end{figure}
+
+No processo de modulação QPSK, o sinal em fase \gls{dI} é multiplicado por uma componente cossenoidal em frequência \gls{fc} e o sinal em quadratura \gls{dQ} é multiplicado por uma componente senoidal em \gls{fc}, seguindo a expressão
+
+\vspace{-0.8em}
+\begin{equation}
+    s(t) = Ad_I (t) \cos(2\pi f_c t + \phi_0) - Ad_Q(t) \sin(2\pi f_c t + \phi_0) \text{ ,}
+\end{equation}
+
+\noindent onde \gls{A} é a amplitude do sinal modulado, \gls{fc} é a frequência da portadora, em torno de $401,625$ \gls{mhz} e \gls{phi0} é o desvio de fase inicial do sinal, que é considerado como zero ($\phi_0 = 0$).
+
+A \autoref{fig:qpsk_sinais_e_constelacao} ilustra o processo de modulação IQ, mostrando os sinais \gls{dI} e \gls{dQ} e a constelação resultante dos símbolos \gls{QPSK} no plano complexo, onde cada ponto representa um símbolo modulado.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Modulação IQ}\label{fig:qpsk_sinais_e_constelacao}
+	\includegraphics[width=\linewidth]{assets/qpsk_sinais_e_constelacao.pdf}
+\end{figure}
+
+A constelação \gls{QPSK} na \autoref{fig:qpsk_sinais_e_constelacao} é composta por quatro pontos, cada qual representando um símbolo distinto. Os símbolos são mapeados de acordo com os pares de bits \gls{dI} e \gls{dQ}. 
+
+\section{RECEPTOR PTT-A3}
+
+Por fim, um ruído \gls{AWGN} é adicionado ao sinal modulado \gls{st} para simular as condições reais de transmissão.  
