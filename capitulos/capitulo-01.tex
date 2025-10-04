@@ -1,37 +1,51 @@
 \chapter{Introdução}\label{cap:introducao}
 
+O uso de tecnologias de comunicação via satélite tem se mostrado fundamental para aplicações de \gls{IOT} em cenários remotos, especialmente no monitoramento ambiental, oceânico e meteorológico, através de plataformas equipadas com sensores, as chamadas \gls{PCD}, que são capazes de transmitir pequenas quantidades de dados periodicamente para satélites de órbita baixa \cite{Centenaro-2021, fraire_direct--satellite_2019}.
 
-A introdução abre o trabalho propriamente dito. Tem a finalidade de apresentar os motivos que levaram o autor a realizar a pesquisa, o problema abordado, os objetivos e a justificativa. O objetivo principal da introdução é situar o leitor no contexto da pesquisa. O leitor deverá perceber claramente o que foi analisado, como e por que, as limitações encontradas, o alcance da investigação e suas bases teóricas gerais. Ela tem, acima de tudo, um caráter didático de apresentar o que foi investigado, levando-se em conta o leitor a que se destina e a finalidade do trabalho~\cite{ifsc:manual:normalizacao}. 
-asdasdsad
-Assim, na introdução contextualize o tema, delimite o assunto, apresente um rápido histórico do problema e das soluções porventura já apresentadas, com breve revisão crítica das investigações anteriores; faça referência às fontes de material, aos métodos seguidos, às teorias ou aos conceitos que embasam o desenvolvimento e a argumentação, às eventuais faltas de informação, ao instrumental utilizado. A introdução deverá conter, ainda:
+Dentre os sistemas internacionais voltados para esse tipo de aplicação, destaca-se o \gls{ARGOS} \footnote{https://www.argos-system.org/}, criado em 1978 por meio de uma cooperação entre o \gls{CNES}, \gls{NOAA} e \gls{NASA}. Desde seu desenvolvimento, o sistema \gls{ARGOS} tem passado por constantes evoluções, trazendo novos padrões de transmissão e modulação como os formatos \gls{PTT-A2}, \gls{PTT-A3} e \gls{PTT-ZE}, para aprimorar a eficiência espectral e a confiabilidade do enlace com o satélite. 
 
-\begin{itemize}
-   \item Justificativa -- trata-se da relevância, o motivo pelo qual tal pesquisa deve ser realizada. Justifica-se aqui a escolha do tema, a delimitação feita e a relação que o pesquisador possui com ele. Procura-se demonstrar a legitimidade, a pertinência, o interesse e a capacidade do pesquisador em lidar com o referido tema. Deve-se fazer o mesmo em relação ao problema e à hipótese, mostrando a relevância científica do tema para o pesquisador. Deve-se fazer, então, nesta parte, a justificativa para o tema, para o problema e para a hipótese, nos termos em que foram formulados na fase de elaboração do projeto de pesquisa;
-   
-   \item Definição do problema -- um problema decorre de um aprofundamento do tema. Ele deve delimitar a pesquisa. Diversos autores sugerem que o problema deve ter algumas características, tais como: a) deve ser formulado como pergunta - isso facilita sua identificação por quem consulta o projeto de pesquisa; b) deve ser claro e preciso; c) deve ser delimitado a uma dimensão variável, pois muitas vezes, o problema é formulado de uma maneira muito ampla, impossível de ser investigado 
-   
-   \item Objetivo geral e objetivos específicos -- detalhado dentro das seções abaixo.
-\end{itemize}
+No Brasil, o \gls{SBCDA} \footnote{https://www.gov.br/aeb/pt-br/acoes-e-programas/aplicacoes-espaciais/dados-ambientais}, desenvolvido e operado pelo \gls{INPE}, emprega a tecnologia \gls{ARGOS}. O \gls{SBCDA} utiliza satélites em órbita baixa, como os \gls{SCD-1}, \gls{SCD-2} e os satélites da série \gls{CBERS}, para coletar dados transmitidos por \gls{PCD} instaladas em todo o território nacional \cite{rodrigues_demodulador_2018, duarte_multiuser_2021}. 
 
-\section{Objetivos}
+De acordo com dados do \gls{SINDA} \footnote{http://sinda.crn.inpe.br/PCD/}, atualmente é possível realizar a inspeção dos dados de 1030 pontos ativos de coleta distribuídos pelo país, cuja distribuição geográfica é apresentada na \autoref{fig:pcd_nacional} \cite{silva_um_2022}. 
 
-Neste item deverá ser indicado claramente o que se deseja fazer, o que se pretende alcançar. É fundamental que estes objetivos sejam possíveis de serem atingidos. Geralmente se formula um objetivo geral articulando-o a outros objetivos mais específicos.
+\newpage
+\begin{figure}[ht]
+	\centering
+	\caption{Mapa das PCDs distribuídas pelo território nacional}\label{fig:pcd_nacional}
+	\includegraphics[width=0.95\linewidth]{assets/geoplot.pdf}
+\end{figure}
+
+
+Grande parte dessas \gls{PCD} é compatível com o padrão \gls{ARGOS-II}, implantado a partir de 1993. Esses dispositivos, entretanto, operam com tecnologias de hardware e software limitadas à época de sua instalação, apresentando restrições quanto à eficiência espectral, robustez contra interferências e capacidade de transmissão de dados. Diante da evolução das demandas de comunicação, da necessidade de aprimorar o desempenho do sistema e da dificuldade na aquisição dos componentes legados para montagem do hardware compativel com \gls{ARGOS-II}, o \gls{ARGOS-III} foi desenvolvido.
+
+O sistema \gls{ARGOS-III} introduziu o uso de transmissores do tipo \gls{PTT-A3} que empregam técnicas digitais mais avançadas, como modulação \gls{QPSK}, codificação convolucional e embaralhamento de dados, visando maior robustez frente a desvanecimentos e erros de rajada. Esses avanços também motivaram o desenvolvimento de novos transmissores e receptores compatíveis com o padrão \gls{PTT-A3} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+Neste contexto, o presente trabalho tem como objetivo a simulação de um modulador/demodulador compatível com o padrão \gls{PTT-A3}, conforme as especificações do sistema \gls{ARGOS-III}, contribuindo para a formação de massa crítica com domínio técnico sobre os elementos do sistema, a fim de criar melhores condições para que futuros esforços de modernização das \gls{PCD} do \gls{SBCDA} possam ser conduzidos. 
+
+
+\section{OBJETIVOS}\label{cap:objetivos}
+
+Este trabalho tem como objetivo principal a simulação e análise de um sistema de modulação e demodulação compatível com o padrão \gls{PTT-A3}, utilizado no sistema de satélites \gls{ARGOS-III}. 
 
 \subsection{Objetivo geral}
 
-Procura-se determinar\footnote{Atenção! Inicie a frase com um verbo abrangente e no infinitivo, como: compreender, saber, avaliar, verificar, constatar, analisar, desenvolver, conhecer, entender, levantar, mapear, identificar.}, com clareza e objetividade, o seu propósito com a realização da pesquisa. Deve-se estar atento ao fato de que nesta pesquisa, em nível de graduação ou pós-graduação, os propósitos são essencialmente acadêmicos, como mapear, identificar, levantar, diagnosticar, traçar o perfil ou historiar determinado assunto específico dentro de um tema. Um objetivo bem redigido explica o quê, com o quê (quem), por meio de quê, onde, quando sobre a pesquisa.
+Simular um sistema de modulação e demodulação compatível com o padrão \gls{PTT-A3} do sistema de satélites \gls{ARGOS-III}.
 
 \subsection{Objetivos específicos}
 
-Significa aprofundar as intenções expressas no objetivo geral. Propõe-se mapear, identificar, levantar, diagnosticar, traçar o perfil ou historiar determinado assunto específico dentro de um tema. Assim, para elaborar os objetivos específicos deve-se:
+Para atingir o objetivo geral proposto, este trabalho foi estruturado em uma série de etapas com metas técnicas bem definidas. Os objetivos específicos foram organizados de modo a contemplar a compreensão teórico/pratica do padrão de comunicação \gls{ARGOS-III}. São eles:
 
 \begin{itemize}
-   \item detalhar o objetivo geral mostrando o que se pretende alcançar com a pesquisa;
-   \item tornar operacional o objetivo geral, indicando exatamente o que será realizado na pesquisa;
-   \item usar verbos que admitam poucas interpretações e no infinitivo, como: identificar, caracterizar, comparar, testar, aplicar, observar, medir, localizar, selecionar, distinguir.
+   \item Estudar o padrão de comunicação ARGOS; 
+   \item Simular a cadeia de transmissão do padrão \gls{PTT-A3}; 
+   \item Simular o efeito da adição de ruído;
+   \item Simular a detecção de múltiplas portadoras;
+   \item Simular a recepção e demodulação do sinal; 
+   \item Simular a sincronização de quadros.
+   \item Simular a montagem e intepretação do datagrama.
 \end{itemize}
 
 
-% \section{Organização do texto}
+\section{ORGANIZAÇÃO DE TEXTO}
 
-% O texto está organizado da seguinte forma: No \autoref{cap:revisao} é apresentado um pouco mais de como fazer um outro capítulo, apresentando ainda formas para inserir figuras. No \autoref{cap:proposta} é apresentado uma forma para adicionar uma tabela. Por fim, no \autoref{cap:conclusoes} são apresentadas as conclusões sobre este trabalho.
+O conteúdo deste trabalho está organizado da seguinte forma: O  \autoref{cap:revisao} apresenta a fundamentação teórica necessária para a compreensão do projeto. Já o \autoref{cap:proposta} descreve a proposta de desenvolvimento e as etapas previstas para a execução do projeto.
