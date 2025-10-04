@@ -481,7 +481,7 @@ Por fim, no proximo segmento, $X_{n+1}[k]$, o sistema verifica se a frequência 
 
 
 
-\subsection{Demodulador Banda Passante}
+\subsection{Demodulador banda base}
 
 Para realizar a demodulação do sinal \gls{st} recebido retornando as componentes \gls{dXt} e \gls{dYt} em banda base, o sinal \gls{st} é multiplicado por duas portadoras ortogonais, \gls{xi} para demodular o canal \gls{cI} e \gls{yq} para demodular o canal \gls{cQ}. Assumindo sincronismo perfeito, o processo de demodulação para o canal \gls{cI} pode ser expresso como
 
@@ -524,7 +524,7 @@ A \autoref{fig:iq_demodulation} ilustra o processo de demodulação dos canais \
 \end{figure}
 
 
-\subsection{Filtragem passa baixa e Filtragem Casada}
+\subsection{Filtragem passa baixa e filtragem casada}
 
 Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $1,5$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
 
@@ -536,7 +536,7 @@ A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dIprime} e \g
 	\includegraphics[width=\linewidth]{assets/cap2/lowpassfilter.pdf}
 \end{figure}
 
-\subsection{Filtragem Casada}
+\subsection{Filtragem casada}
 
 Os sinais \gls{dIprime} e \gls{dQprime} em banda base, e já filtrados por um \gls{LPF}, passam por um filtro casado \gls{MF}, que é utilizado para maximizar a relação sinal-ruído (\gls{SNR}). O filtro casado é ajustado para coincidir com o inverso do pulso  \gls{gti} utilizado na formatação do sinal na transmissão \cite{10555531840}. 
 
