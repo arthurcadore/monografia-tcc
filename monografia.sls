@@ -5,9 +5,19 @@
 		\setentrycounter[]{page}\glsnumberformat{25}}}%
 \glossentry{bps}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{21}}}\glsgroupskip
+\glsgroupheading{C}\relax \glsresetentrylist %
+\glossentry{cI}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}%
+\glossentry{cQ}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}\glsgroupskip
 \glsgroupheading{F}\relax \glsresetentrylist %
 \glossentry{fc}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{22}}}\glsgroupskip
+\glsgroupheading{G}\relax \glsresetentrylist %
+\glossentry{G0}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}%
+\glossentry{G1}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}\glsgroupskip
 \glsgroupheading{I}\relax \glsresetentrylist %
 \glossentry{ipcd}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{26}}}\glsgroupskip
@@ -33,8 +43,18 @@
 \glossentry{Sn}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{22}}}%
 \glossentry{SQn}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{22}}}\glsgroupskip
+		\setentrycounter[]{page}\glsnumberformat{22}}}%
+\glossentry{st}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{26}}}\glsgroupskip
 \glsgroupheading{T}\relax \glsresetentrylist %
 \glossentry{Tm}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{25}}}%
+		\setentrycounter[]{page}\glsnumberformat{25}}}\glsgroupskip
+\glsgroupheading{U}\relax \glsresetentrylist %
+\glossentry{ut}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}\glsgroupskip
+\glsgroupheading{V}\relax \glsresetentrylist %
+\glossentry{vt0}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}%
+\glossentry{vt1}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{27}}}%
 \end{theglossary}\glossarypostamble
