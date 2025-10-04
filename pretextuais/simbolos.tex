@@ -18,6 +18,51 @@
 {fc}
 {\ensuremath{f_c}}
 
+% f_n nominal frequency
+\glsxtrnewsymbol[description={Frequência randômica selecionada pela PCD, $401.620 \leq f_n \leq 401.650\,\text{MHz}$ (ARGOS-3)}]
+{fn}
+{\ensuremath{f_n}}
+
+% x_n - amostra do sinal no tempo
+\glsxtrnewsymbol[description={Segmento de sinal de s(t) amostrado no tempo}]
+{xn}
+{\ensuremath{x_n[m]}}
+
+% XnK - espectro de frequência do segmento de sinal
+\glsxtrnewsymbol[description={Espectro de frequência do segmento de sinal}]
+{xnk}
+{\ensuremath{X_n[k]}}
+
+% k - índice de frequência
+\glsxtrnewsymbol[description={Índice de frequência do espectro de frequência do segmento de sinal}]
+{k}
+{\ensuremath{k}}
+
+% Pnk - potência do espectro de frequência do segmento de sinal
+\glsxtrnewsymbol[description={Potência do espectro de frequência do segmento de sinal}]
+{Pnk}
+{\ensuremath{P_n[k]}}
+
+% Pt - potência de treashold
+\glsxtrnewsymbol[description={Valor de potência de \textit{threshold} para detecção de portadora}]
+{Pt}
+{\ensuremath{P_t}}
+
+% m - índice de amostra
+\glsxtrnewsymbol[description={Índice de amostra do segmento de sinal}]
+{m}
+{\ensuremath{m}}
+
+% T_s - tempo de decisão
+\glsxtrnewsymbol[description={Tempo de decisão, $T_s = 10\,\text{ms}$}]
+{Ts}
+{\ensuremath{T_s}}
+
+% T_n - Index de tempo do segmento
+\glsxtrnewsymbol[description={Index do segmento de sinal}]
+{Tn}
+{\ensuremath{n}}
+
 % MHz megahertz
 \glsxtrnewsymbol[description={\textit{Megahertz}}]
 {mhz}
@@ -54,7 +99,7 @@
 {\ensuremath{P_m}}
 
 % tamanho da mensagem
-\glsxtrnewsymbol[description={Tamanho da mensagem, $T_m = B_m + P_m$}]
+\glsxtrnewsymbol[description={Tamanho da mensagem}]
 {Tm}
 {\ensuremath{T_m}}
 
@@ -69,7 +114,7 @@
 {\ensuremath{R_{PCD}}}
 
 % pcdid - Identificador da PCD + checksum
-\glsxtrnewsymbol[description={Identificador da PCD + checksum, $I_{PCD} + R_{PCD}$}]
+\glsxtrnewsymbol[description={Identificador da PCD, número da PCD + bits de checksum}]
 {pcdid}
 {\ensuremath{PCD_{ID}}}
 
@@ -82,6 +127,11 @@
 \glsxtrnewsymbol[description={Vetor de Tempo}]
 {t}
 {\ensuremath{t}}
+
+% rt - ruído adicionado ao sinal modulado
+\glsxtrnewsymbol[description={Ruído $AWGN$, em função de tempo $t$}]
+{rt}
+{\ensuremath{r(t)}}
 
 % f_s - frequência de amostragem
 \glsxtrnewsymbol[description={Frequência de amostragem, $f_s = 128\,\text{KHz}$}]
@@ -109,7 +159,7 @@
 {\ensuremath{\alpha}}
 
 % W - largura de banda
-\glsxtrnewsymbol[description={Largura de banda do sinal modulado, $W = (1 + \alpha)/T_b$}]
+\glsxtrnewsymbol[description={Largura de banda do sinal modulado, definido como $W = (1 + \alpha)/T_b$}]
 {W}
 {\ensuremath{W}}
 
