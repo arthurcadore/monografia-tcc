@@ -96,9 +96,8 @@ A \autoref{fig:portadora_pura_freq} apresenta o sinal da portadora pura no espec
 
 \begin{figure}[H]
 	\centering
-	\caption{Simulação de portadora pura no domínio da frequência}\label{fig:portadora_pura_freq}
+	\caption{Comparação de portadora pura e sinal modulado}\label{fig:portadora_pura_freq}
 	\includegraphics[width=\linewidth]{assets/plots/carrier_spectra.pdf}
-    
 \end{figure}
 
 O processo de detecção do sinal realizado pelo receptor monitora a presença de sinal que ultrapassa um determinado limiar, dessa forma é fundamental que no receptor o sinal esteja o mais concentrado e com a maior \gls{SNR} possível no momento da detecção, para que a frequência da portadora, \gls{fc}, seja identificada corretamente \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
@@ -180,7 +179,7 @@ Os dados dos sensores são agrupados em conjuntos denominados `blocos de dados` 
 
 \begin{figure}[H]
 	\centering
-	\caption{Exemplo de agrupamento de sensores por bloco de dados}\label{fig:sensores_blocos}
+	\caption{Agrupamento de sensores no payload do datagrama}\label{fig:sensores_blocos}
 	\includegraphics[width=\linewidth]{assets/dados_app.pdf}
 \end{figure}
 
@@ -250,7 +249,7 @@ R_{PCD} = \left( \sum_{i=0}^{19} I_{PCD} \cdot 2^i \right) \bmod 256 \text{ ,}
 Ao final do datagrama, são inseridos entre sete e nove bits '0' com a finalidade de limpar o registrador do codificador convolucional, dando o encerramento da sequência codificada. A quantidade de bits de fim de mensagem adicionados depende do comprimento total da mensagem do usuário, conforme apresentado na \autoref{quadro:bits-codificacao}. Apesar de não carregar dados úteis a nível de aplicação, esses bits são fundamentais para o correto funcionamento do processo de decodificação \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 \begin{quadro}[H]
-    \caption{Bits adicionados às mensagens do usuário antes da codificação}
+    \caption{Comprimento da cauda (bits '0') para cada tamanho de mensagem}
     \label{quadro:bits-codificacao}
     \small 
     \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X 
@@ -373,7 +372,7 @@ Y[n] =
 \noindent resultando assim em um vetor de saída \gls{Qn} codificado em Manchester.
 \begin{figure}[H]
 	\centering
-	\caption{Codificação NRZ e Manchester dos vetores I e Q}\label{fig:codificacao_linha}
+	\caption{Codificação de linha dos vetores I e Q}\label{fig:codificacao_linha}
 	\includegraphics[width=\linewidth]{assets/codificacao_linha.pdf}
 \end{figure}
 
@@ -404,8 +403,8 @@ Para aplicar a modulação de pulso e gerar os sinais analógicos \gls{dI} e \gl
 A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:pulso_rrc_e_sinais_iq}, onde a resposta ao impulso \gls{gt} é apresentada em conjunto com os sinais \gls{dI} e \gls{dQ}. 
 
 \begin{figure}[H]
+	\caption{Formatação dos canais $I$ e $Q$}\label{fig:pulso_rrc_e_sinais_iq}
 	\includegraphics[width=\linewidth]{assets/pulso_rrc_e_sinais_iq.pdf}
-	\caption{Formatação dos pares IQ}\label{fig:pulso_rrc_e_sinais_iq}
 \end{figure}
 
 
@@ -416,9 +415,8 @@ Uma vez com os pares de sinal \gls{dI} e \gls{dQ} correspondentes a cada canal, 
 
 \begin{figure}[H]
 	\centering
-	\caption{Modulador QPSK}\label{fig:modulador_qpsk}
+	\caption{Diagrama de blocos do modulador QPSK}\label{fig:modulador_qpsk}
 	\includegraphics[width=\linewidth]{assets/modulador.pdf}
-    
 \end{figure}
 
 No processo de modulação QPSK, o sinal em fase \gls{dI} é multiplicado por uma componente cossenoidal em frequência \gls{fc} e o sinal em quadratura \gls{dQ} é multiplicado por uma componente senoidal em \gls{fc}, seguindo a expressão
@@ -434,7 +432,7 @@ A \autoref{fig:qpsk_sinais_e_constelacao} ilustra o processo de modulação IQ, 
 
 \begin{figure}[H]
 	\centering
-	\caption{Modulação IQ}\label{fig:qpsk_sinais_e_constelacao}
+	\caption{Modulação em banda passante dos canais $I$ e $Q$}\label{fig:qpsk_sinais_e_constelacao}
 	\includegraphics[width=\linewidth]{assets/qpsk_sinais_e_constelacao.pdf}
 \end{figure}
 
@@ -446,7 +444,7 @@ Como a transmissão dos dados das \gls{PCD} não segue uma estrutura de canais d
 
 \begin{figure}[H]
 	\centering
-	\caption{Diagrama de blocos do demodulador}\label{fig:diagrama_blocos_demodulador}
+	\caption{Diagrama de blocos do receptor ARGOS-3}\label{fig:diagrama_blocos_demodulador}
 	\includegraphics[width=\linewidth]{assets/blocos_demodulador.pdf}
 \end{figure}
 
@@ -521,7 +519,7 @@ A \autoref{fig:fft_produtos_com_portadoras} ilustra o processo de demodulação 
 
 \begin{figure}[H]
 	\centering
-	\caption{Demodulação dos canais I e Q}\label{fig:fft_produtos_com_portadoras}
+	\caption{Componentes $I$ e $Q$ após demodulação}\label{fig:fft_produtos_com_portadoras}
 	\includegraphics[width=\linewidth]{assets/fft_produtos_com_portadoras.pdf}
 \end{figure}
 
@@ -534,7 +532,7 @@ A \autoref{fig:espectros_filtragem_comparacao} apresenta o espectro dos sinais \
 
 \begin{figure}[H]
 	\centering
-	\caption{Filtragem passa baixa de I e Q}\label{fig:espectros_filtragem_comparacao}
+	\caption{Componentes $I$ $Q$ após filtragem passa baixa}\label{fig:espectros_filtragem_comparacao}
 	\includegraphics[width=\linewidth]{assets/espectros_filtragem_comparacao.pdf}
     
 \end{figure}
@@ -558,7 +556,7 @@ A \autoref{fig:espectros_filtro_casado} apresenta o espectro dos sinais \gls{Ipr
 
 \begin{figure}[H]
 	\centering
-	\caption{Filtragem casada de I e Q}\label{fig:espectros_filtro_casado}
+	\caption{Componentes $I$ e $Q$ após filtragem casada}\label{fig:espectros_filtro_casado}
 	\includegraphics[width=\linewidth]{assets/espectros_filtro_casado.pdf}
 \end{figure}
 
@@ -578,7 +576,7 @@ Uma vez com os sinais \gls{dIprime} e \gls{dQprime} filtrados, considerando sinc
 
 \begin{figure}[H]
 	\centering
-	\caption{Decisão de I e Q}\label{fig:sinais_amostrados_pos_filtro_casado}
+	\caption{Amostragem das componentes $I$ e $Q$}\label{fig:sinais_amostrados_pos_filtro_casado}
 	\includegraphics[width=\linewidth]{assets/sinais_amostrados_pos_filtro_casado.pdf}
     
 \end{figure}
@@ -600,7 +598,7 @@ Os valores amostrados \gls{Inprime} e \gls{Qnprime} são então decididos, isto 
 
 \begin{figure}[H]
 	\centering
-	\caption{Comparação dos vetores IQ decididos}\label{fig:comparacao_bits_recuperados}
+	\caption{Comparação dos vetores $I$ e $Q$ decididos com vetores transmitidos}\label{fig:comparacao_bits_recuperados}
 	\includegraphics[width=\linewidth]{assets/comparacao_bits_recuperados.pdf}
 \end{figure}
 
@@ -637,7 +635,7 @@ O desembaralhador utiliza a mesma estrutura lógica do embaralhador, porém exec
 
 \begin{figure}[H]
 \centering
-\caption{Desembaralhador de dados para o ARGOS-3}\label{fig:desembaralhador}
+\caption{Diagrama de blocos do Desembaralhador ARGOS-3}\label{fig:desembaralhador}
 \includegraphics[width=\linewidth]{assets/desembaralhador.pdf}
 \end{figure}
 
