@@ -13,7 +13,7 @@ A comunicação por satélites desempenha um papel fundamental na coleta e disse
     \label{fig:satelites}
     \begin{minipage}[t]{0.48\linewidth}
       \centering
-      \includegraphics[width=0.7\linewidth]{assets/sat-SCD-1.png}
+      \includegraphics[width=0.7\linewidth]{assets/cap2/sat-SCD-1.png}
       \vspace{0.5em}
       \caption*{Satélite SCD-1}
       \small
@@ -33,7 +33,7 @@ A comunicação por satélites desempenha um papel fundamental na coleta e disse
     \hfill
     \begin{minipage}[t]{0.48\linewidth}
       \centering
-      \includegraphics[width=0.7\linewidth]{assets/sat-CBERS-4.png}
+      \includegraphics[width=0.7\linewidth]{assets/cap2/sat-CBERS-4.png}
       \vspace{0.5em}
       \caption*{Satélite CBERS-4}
       \small
@@ -79,12 +79,12 @@ A evolução desse sistema levou ao desenvolvimento do \gls{ARGOS-III}, que intr
 
 O transmissor do tipo \gls{PTT-A3} é um dos formatos definidos na terceira geração do sistema \gls{ARGOS}, projetado para oferecer maior robustez na transmissão e maior eficiência na utilização do espectro de frequência. 
 
-A estrutura de um quadro \gls{PTT-A3} é composta por três campos principais, sendo eles: portadora pura, palavra de sincronismo (preâmbulo) e datagrama. Na \autoref{fig:estrutura_quadro}, a estrutura é apresentada de forma detalhada, considerando que a taxa de transmissão \gls{Rb} é de 400 \gls{bps} \textcite{cnes_services_and_message_formats_ed2_rev2_2006}.
+A estrutura de um quadro \gls{PTT-A3} é composta por três campos principais, sendo eles: portadora pura, palavra de sincronismo (preâmbulo) e datagrama. Na \autoref{fig:frame}, a estrutura é apresentada de forma detalhada, considerando que a taxa de transmissão \gls{Rb} é de 400 \gls{bps} \textcite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 \begin{figure}[H]
 	\centering
-	\caption{Estrutura do quadro de transmissão ARGOS-3}\label{fig:estrutura_quadro}
-	\includegraphics[width=\linewidth]{assets/quadro.pdf}
+	\caption{Estrutura do quadro de transmissão ARGOS-3}\label{fig:frame}
+	\includegraphics[width=\linewidth]{assets/cap2/frame.pdf}
 \end{figure}
 
 \subsection{Portadora pura}
@@ -97,7 +97,7 @@ A \autoref{fig:portadora_pura_freq} apresenta o sinal da portadora pura no espec
 \begin{figure}[H]
 	\centering
 	\caption{Comparação de portadora pura e sinal modulado}\label{fig:portadora_pura_freq}
-	\includegraphics[width=\linewidth]{assets/plots/carrier_spectra.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/carrier_spectra.pdf}
 \end{figure}
 
 O processo de detecção do sinal realizado pelo receptor monitora a presença de sinal que ultrapassa um determinado limiar, dessa forma é fundamental que no receptor o sinal esteja o mais concentrado e com a maior \gls{SNR} possível no momento da detecção, para que a frequência da portadora, \gls{fc}, seja identificada corretamente \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
@@ -122,12 +122,12 @@ A sequência \gls{Sn} é separada em dois vetores distintos, \gls{SIn} e \gls{SQ
 
 \subsection{Datagrama}
 
-Após o envio da palavra de sincronismo, inicia-se a transmissão dos dados modulados. Esses dados são organizados segundo a estrutura definida pelo datagrama do padrão \gls{ARGOS-III}, que contém os campos responsáveis pela identificação da plataforma, carga útil de dados e controle de finalização, conforme apresentado na \autoref{fig:datagrama} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+Após o envio da palavra de sincronismo, inicia-se a transmissão dos dados modulados. Esses dados são organizados segundo a estrutura definida pelo datagrama do padrão \gls{ARGOS-III}, que contém os campos responsáveis pela identificação da plataforma, carga útil de dados e controle de finalização, conforme apresentado na \autoref{fig:datagram} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 \begin{figure}[H]
 	\centering
-	\caption{Estrutura do datagrama ARGOS-3}\label{fig:datagrama}
-	\includegraphics[width=\linewidth]{assets/datagrama.pdf}
+	\caption{Estrutura do datagrama ARGOS-3}\label{fig:datagram}
+	\includegraphics[width=\linewidth]{assets/cap2/datagram.pdf}
     
 \end{figure}
 
@@ -175,12 +175,12 @@ Entre os sensores comumente utilizados, destacam-se os de direção do vento ($^
 
 \subsubsection{Blocos de dados}
 
-Os dados dos sensores são agrupados em conjuntos denominados `blocos de dados` contendo quatro sensores por bloco, conforme ilustrado na \autoref{fig:sensores_blocos}. Assim, cada bloco de dados possui 32 bits ($4 \cdot 8$ bits), sendo o valor mínimo de um bloco de dados para montar um datagrama \gls{PTT-A3} (exceto o primeiro bloco que possui apenas 24 bits de comprimento). Para o caso específico em que a PCD irá transmitir apenas um bloco, ela poderá abrigar apenas três sensores. Caso haja mais de um bloco, o comprimento é dado por $24 + (\text{\gls{Nb} - 1}) \cdot 32$ bits \textcite{cnes_services_and_message_formats_ed2_rev2_2006}.
+Os dados dos sensores são agrupados em conjuntos denominados `blocos de dados` contendo quatro sensores por bloco, conforme ilustrado na \autoref{fig:payload}. Assim, cada bloco de dados possui 32 bits ($4 \cdot 8$ bits), sendo o valor mínimo de um bloco de dados para montar um datagrama \gls{PTT-A3} (exceto o primeiro bloco que possui apenas 24 bits de comprimento). Para o caso específico em que a PCD irá transmitir apenas um bloco, ela poderá abrigar apenas três sensores. Caso haja mais de um bloco, o comprimento é dado por $24 + (\text{\gls{Nb} - 1}) \cdot 32$ bits \textcite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 \begin{figure}[H]
 	\centering
-	\caption{Agrupamento de sensores no payload do datagrama}\label{fig:sensores_blocos}
-	\includegraphics[width=\linewidth]{assets/dados_app.pdf}
+	\caption{Agrupamento de sensores no payload do datagrama}\label{fig:payload}
+	\includegraphics[width=\linewidth]{assets/cap2/payload.pdf}
 \end{figure}
 
 
@@ -275,12 +275,12 @@ Ao final do datagrama, são inseridos entre sete e nove bits '0' com a finalidad
 
 \section{TRANSMISSOR PTT-A3}
 
-Na \autoref{fig:diagrama_blocos_modulador} ilustra-se o diagrama de blocos do transmissor \gls{PTT-A3}. Cada bloco é responsável por uma etapa da transmissão, desde a montagem do datagrama até a modulação em banda passante e a transmissão do sinal \gls{st}.
+Na \autoref{fig:diagrama_transmissor} ilustra-se o diagrama de blocos do transmissor \gls{PTT-A3}. Cada bloco é responsável por uma etapa da transmissão, desde a montagem do datagrama até a modulação em banda passante e a transmissão do sinal \gls{st}.
 
 \begin{figure}[H]
 	\centering
-	\caption{Diagrama de blocos do transmissor ARGOS-3}\label{fig:diagrama_blocos_modulador}
-	\includegraphics[width=\linewidth]{assets/blocos_modulador.pdf}
+	\caption{Diagrama de blocos do transmissor ARGOS-3}\label{fig:diagrama_transmissor}
+	\includegraphics[width=\linewidth]{assets/cap2/transmissor.pdf}
     
 \end{figure}
 
@@ -319,13 +319,13 @@ Os vetores geradores são utilizados para definir a estrutura do registrado do c
 \label{eq:matriz_geradora}
 \end{equation}
 
-\noindent que pode ser representada de forma equivalente pelo diagrama de blocos apresentado na \autoref{fig:cod_convolucional} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+\noindent que pode ser representada de forma equivalente pelo diagrama de blocos apresentado na \autoref{fig:conv_coding} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 \begin{figure}[H]
 	\centering
 	\caption{Diagrama de blocos do codificador convolucional ARGOS-3}
-	\label{fig:cod_convolucional}
-	\includegraphics[width=\linewidth]{assets/cod_convolucional.pdf}
+	\label{fig:conv_coding}
+	\includegraphics[width=\linewidth]{assets/cap2/conv_coding.pdf}
 \end{figure}
 
 
@@ -338,7 +338,7 @@ O embaralhador é utilizado para garantir que os dados sejam melhor distribuído
 \begin{figure}[H]
 	\centering
 	\caption{Embaralhador de dados para o ARGOS-3}\label{fig:embaralhador}
-	\includegraphics[width=\linewidth]{assets/scrambler.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/scrambler.pdf}
     
 \end{figure}
 
@@ -372,8 +372,8 @@ Y[n] =
 \noindent resultando assim em um vetor de saída \gls{Qn} codificado em Manchester.
 \begin{figure}[H]
 	\centering
-	\caption{Codificação de linha dos vetores I e Q}\label{fig:codificacao_linha}
-	\includegraphics[width=\linewidth]{assets/codificacao_linha.pdf}
+	\caption{Codificação de linha dos vetores I e Q}\label{fig:line_coding}
+	\includegraphics[width=\linewidth]{assets/cap2/line_coding.pdf}
 \end{figure}
 
 
@@ -400,23 +400,23 @@ Para aplicar a modulação de pulso e gerar os sinais analógicos \gls{dI} e \gl
 
 \noindent onde \gls{alpha} é o fator de roll-off do pulso, que controla a largura de banda \gls{W} do sinal modulado. Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}.
 
-A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:pulso_rrc_e_sinais_iq}, onde a resposta ao impulso \gls{gt} é apresentada em conjunto com os sinais \gls{dI} e \gls{dQ}. 
+A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:pulse_modulate}, onde a resposta ao impulso \gls{gt} é apresentada em conjunto com os sinais \gls{dI} e \gls{dQ}. 
 
 \begin{figure}[H]
-	\caption{Formatação dos canais $I$ e $Q$}\label{fig:pulso_rrc_e_sinais_iq}
-	\includegraphics[width=\linewidth]{assets/pulso_rrc_e_sinais_iq.pdf}
+	\caption{Modulação de pulso dos canais $I$ e $Q$}\label{fig:pulse_modulate}
+	\includegraphics[width=\linewidth]{assets/cap2/pulse_modulate.pdf}
 \end{figure}
 
 
 
 \subsection{Modulação em banda passante} 
 
-Uma vez com os pares de sinal \gls{dI} e \gls{dQ} correspondentes a cada canal, pode-se realizar a modulação em banda passante para transmissão do sinal \gls{st}. Na \autoref{fig:modulador_qpsk} é ilustrado o diagrama de blocos do modulador \gls{QPSK} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+Uma vez com os pares de sinal \gls{dI} e \gls{dQ} correspondentes a cada canal, pode-se realizar a modulação em banda passante para transmissão do sinal \gls{st}. Na \autoref{fig:qpsk_modulator} é ilustrado o diagrama de blocos do modulador \gls{QPSK} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 \begin{figure}[H]
 	\centering
-	\caption{Diagrama de blocos do modulador QPSK}\label{fig:modulador_qpsk}
-	\includegraphics[width=\linewidth]{assets/modulador.pdf}
+	\caption{Diagrama de blocos do modulador QPSK}\label{fig:qpsk_modulator}
+	\includegraphics[width=\linewidth]{assets/cap2/qpsk_modulator.pdf}
 \end{figure}
 
 No processo de modulação QPSK, o sinal em fase \gls{dI} é multiplicado por uma componente cossenoidal em frequência \gls{fc} e o sinal em quadratura \gls{dQ} é multiplicado por uma componente senoidal em \gls{fc}, seguindo a expressão
@@ -428,15 +428,15 @@ No processo de modulação QPSK, o sinal em fase \gls{dI} é multiplicado por um
 
 \noindent onde \gls{A} é a amplitude do sinal modulado, \gls{fc} é a frequência da portadora, em torno de $401,625$ \gls{mhz} e \gls{phi0} é o desvio de fase inicial do sinal, que é considerado como zero ($\phi_0 = 0$).
 
-A \autoref{fig:qpsk_sinais_e_constelacao} ilustra o processo de modulação IQ, mostrando os sinais \gls{dI} e \gls{dQ} e a constelação resultante dos símbolos \gls{QPSK} no plano complexo, onde cada ponto representa um símbolo modulado.
+A \autoref{fig:iq_modulation} ilustra o processo de modulação IQ, mostrando os sinais \gls{dI} e \gls{dQ} e a constelação resultante dos símbolos \gls{QPSK} no plano complexo, onde cada ponto representa um símbolo modulado.
 
 \begin{figure}[H]
 	\centering
-	\caption{Modulação em banda passante dos canais $I$ e $Q$}\label{fig:qpsk_sinais_e_constelacao}
-	\includegraphics[width=\linewidth]{assets/qpsk_sinais_e_constelacao.pdf}
+	\caption{Modulação em banda passante dos canais $I$ e $Q$}\label{fig:iq_modulation}
+	\includegraphics[width=\linewidth]{assets/cap2/iq_modulation.pdf}
 \end{figure}
 
-A constelação \gls{QPSK} na \autoref{fig:qpsk_sinais_e_constelacao} é composta por quatro pontos, cada qual representando um símbolo distinto. Os símbolos são mapeados de acordo com os pares de bits \gls{dI} e \gls{dQ}. Após a transmissão, o sinal \gls{st} é somado a um vetor de ruído \gls{rt} para simular as condições reais no momento da recepção.
+A constelação \gls{QPSK} na \autoref{fig:iq_modulation} é composta por quatro pontos, cada qual representando um símbolo distinto. Os símbolos são mapeados de acordo com os pares de bits \gls{dI} e \gls{dQ}. Após a transmissão, o sinal \gls{st} é somado a um vetor de ruído \gls{rt} para simular as condições reais no momento da recepção.
 
 \section{RECEPTOR PTT-A3}
 
@@ -444,8 +444,8 @@ Como a transmissão dos dados das \gls{PCD} não segue uma estrutura de canais d
 
 \begin{figure}[H]
 	\centering
-	\caption{Diagrama de blocos do receptor ARGOS-3}\label{fig:diagrama_blocos_demodulador}
-	\includegraphics[width=\linewidth]{assets/blocos_demodulador.pdf}
+	\caption{Diagrama de blocos do receptor ARGOS-3}\label{fig:diagrama_receptor}
+	\includegraphics[width=\linewidth]{assets/cap2/receptor.pdf}
 \end{figure}
 
 
@@ -515,12 +515,12 @@ d_Y'(t) = s(t) \cdot y_Q(t) = \left[A \cdot d_I'(t) \cos(2\pi f_c t ) - A \cdot 
     \right]}_{\text{Dobro da frequência $f_c$}} \text{ .}
 \end{equation}
 
-A \autoref{fig:fft_produtos_com_portadoras} ilustra o processo de demodulação dos canais \gls{cI} e \gls{cQ}, onde os sinais multiplicados por \gls{xi} e \gls{yq} são apresentados no espectro, mostrando a presença dos sinais em banda base e as componentes de alta frequência resultantes da multiplicação com as portadoras (considerando um $f_c = 2 \text{\gls{khz}}$). \cite{cnes_services_and_message_formats_ed2_rev2_2006}
+A \autoref{fig:iq_demodulation} ilustra o processo de demodulação dos canais \gls{cI} e \gls{cQ}, onde os sinais multiplicados por \gls{xi} e \gls{yq} são apresentados no espectro, mostrando a presença dos sinais em banda base e as componentes de alta frequência resultantes da multiplicação com as portadoras (considerando um $f_c = 2 \text{\gls{khz}}$). \cite{cnes_services_and_message_formats_ed2_rev2_2006}
 
 \begin{figure}[H]
 	\centering
-	\caption{Componentes $I$ e $Q$ após demodulação}\label{fig:fft_produtos_com_portadoras}
-	\includegraphics[width=\linewidth]{assets/fft_produtos_com_portadoras.pdf}
+	\caption{Componentes $I$ e $Q$ após demodulação}\label{fig:iq_demodulation}
+	\includegraphics[width=\linewidth]{assets/cap2/iq_demodulation.pdf}
 \end{figure}
 
 
@@ -528,13 +528,12 @@ A \autoref{fig:fft_produtos_com_portadoras} ilustra o processo de demodulação 
 
 Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $1,5$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
 
-A \autoref{fig:espectros_filtragem_comparacao} apresenta o espectro dos sinais \gls{dIprime} e \gls{dQprime} antes e após a filtragem passa-baixa, bem como a resposta ao impulso \gls{ht} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base.
+A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dIprime} e \gls{dQprime} antes e após a filtragem passa-baixa, bem como a resposta ao impulso \gls{ht} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base.
 
 \begin{figure}[H]
 	\centering
-	\caption{Componentes $I$ $Q$ após filtragem passa baixa}\label{fig:espectros_filtragem_comparacao}
-	\includegraphics[width=\linewidth]{assets/espectros_filtragem_comparacao.pdf}
-    
+	\caption{Componentes $I$ $Q$ após filtragem passa baixa}\label{fig:lowpassfilter}
+	\includegraphics[width=\linewidth]{assets/cap2/lowpassfilter.pdf}
 \end{figure}
 
 \subsection{Filtragem Casada}
@@ -552,12 +551,12 @@ O filtro casado é aplicado aos sinais \gls{dIprime} e \gls{dQprime} através da
 \end{equation}
 
 
-A \autoref{fig:espectros_filtro_casado} apresenta o espectro dos sinais \gls{Iprime} e \gls{Qprime} após a filtragem casada, onde é possível observar a melhoria na relação sinal-ruído e a remoção de componentes indesejadas. 
+A \autoref{fig:matchedfilter} apresenta o espectro dos sinais \gls{Iprime} e \gls{Qprime} após a filtragem casada, onde é possível observar a melhoria na relação sinal-ruído e a remoção de componentes indesejadas. 
 
 \begin{figure}[H]
 	\centering
-	\caption{Componentes $I$ e $Q$ após filtragem casada}\label{fig:espectros_filtro_casado}
-	\includegraphics[width=\linewidth]{assets/espectros_filtro_casado.pdf}
+	\caption{Componentes $I$ e $Q$ após filtragem casada}\label{fig:matchedfilter}
+	\includegraphics[width=\linewidth]{assets/cap2/matchedfilter.pdf}
 \end{figure}
 
 
@@ -572,12 +571,12 @@ Uma vez com os sinais \gls{dIprime} e \gls{dQprime} filtrados, considerando sinc
     \end{array} \text{ ,}
 \end{equation}
 
-\noindent onde \gls{n} é o índice de amostra, \gls{Tb} é o tempo de bit $1/R_b$ e \gls{tau} é o atraso inicial da decisão. A \autoref{fig:sinais_amostrados_pos_filtro_casado} apresenta os sinais amostrados \gls{Inprime} e \gls{Qnprime}. 
+\noindent onde \gls{n} é o índice de amostra, \gls{Tb} é o tempo de bit $1/R_b$ e \gls{tau} é o atraso inicial da decisão. A \autoref{fig:sampling} apresenta os sinais amostrados \gls{Inprime} e \gls{Qnprime}. 
 
 \begin{figure}[H]
 	\centering
-	\caption{Amostragem das componentes $I$ e $Q$}\label{fig:sinais_amostrados_pos_filtro_casado}
-	\includegraphics[width=\linewidth]{assets/sinais_amostrados_pos_filtro_casado.pdf}
+	\caption{Amostragem das componentes $I$ e $Q$}\label{fig:sampling}
+	\includegraphics[width=\linewidth]{assets/cap2/sampling.pdf}
     
 \end{figure}
 
@@ -594,12 +593,12 @@ Os valores amostrados \gls{Inprime} e \gls{Qnprime} são então decididos, isto 
     \end{cases} \text{ ,}
 \end{equation}
 
-\noindent onde \gls{Inprime} e \gls{Qnprime} são os vetores simbolo. A \autoref{fig:comparacao_bits_recuperados} apresenta os simbolos decididos nos vetores \gls{Inprime} e \gls{Qnprime} após o processo de quantização, em comparação com os vetores originais \gls{In} e \gls{Qn} transmitidos.
+\noindent onde \gls{Inprime} e \gls{Qnprime} são os vetores simbolo. A \autoref{fig:comparacao_bits} apresenta os simbolos decididos nos vetores \gls{Inprime} e \gls{Qnprime} após o processo de quantização, em comparação com os vetores originais \gls{In} e \gls{Qn} transmitidos.
 
 \begin{figure}[H]
 	\centering
-	\caption{Comparação dos vetores $I$ e $Q$ decididos com vetores transmitidos}\label{fig:comparacao_bits_recuperados}
-	\includegraphics[width=\linewidth]{assets/comparacao_bits_recuperados.pdf}
+	\caption{Comparação dos vetores $I$ e $Q$ decididos com vetores transmitidos}\label{fig:comparacao_bits}
+	\includegraphics[width=\linewidth]{assets/cap2/comparacao_bits.pdf}
 \end{figure}
 
 \subsection{Decodificador de linha}
@@ -631,12 +630,12 @@ Após a decisão dos símbolos, os vetores \gls{Inprime} e \gls{Qnprime} precisa
 
 Após o processo de decodificação de linha, os dados vetores de bits \gls{Xnprime} e \gls{Ynprime} ainda encontram-se embaralhados, então é necessário realizar o desembaralhamento para restaurar a sequência original dos bits antes da decodificação convolucional \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
-O desembaralhador utiliza a mesma estrutura lógica do embaralhador, porém executando a operação inversa de reorganização dos bits, com base em regras posicionais dependentes do índice dos bits \gls{n}. A \autoref{fig:desembaralhador} apresenta o diagrama de blocos do desembaralhador utilizado no \gls{PTT-A3}, que refaz a ordenação dos bits após a demodulação \cite{rodrigues_demodulador_2018}.
+O desembaralhador utiliza a mesma estrutura lógica do embaralhador, porém executando a operação inversa de reorganização dos bits, com base em regras posicionais dependentes do índice dos bits \gls{n}. A \autoref{fig:unscrambler} apresenta o diagrama de blocos do desembaralhador utilizado no \gls{PTT-A3}, que refaz a ordenação dos bits após a demodulação \cite{rodrigues_demodulador_2018}.
 
 \begin{figure}[H]
 \centering
-\caption{Diagrama de blocos do Desembaralhador ARGOS-3}\label{fig:desembaralhador}
-\includegraphics[width=\linewidth]{assets/desembaralhador.pdf}
+\caption{Diagrama de blocos do Desembaralhador ARGOS-3}\label{fig:unscrambler}
+\includegraphics[width=\linewidth]{assets/cap2/unscrambler.pdf}
 \end{figure}
 
 O processo de desembaralhamento retorna os vetores de bit, \gls{vt0prime} e \gls{vt1prime}, que correspondem aos dados codificados nos canais \gls{cI} e \gls{cQ}, respectivamente.
@@ -647,10 +646,10 @@ Após o desembaralhamento, os vetores \gls{vt0prime} e \gls{vt1prime} estão pro
 
 No padrão \gls{ARGOS-III}, o código convolucional utilizado segue o padrão \gls{CCSDS} 131.1-G-2, que, por sua vez, possui uma distância livre conhecida de $\text{\gls{dfree}} = 10$. Quanto maior for o valor de \gls{dfree}, maior será a robustez do código e sua capacidade de detectar e corrigir erros.
 
-\noindent Assim, conforme o comparativo ilustrado na \autoref{fig:decodificador_convolucional} entre a transmissão \gls{QPSK} sem codificação e com codificação convolucional, o uso desta técnica na transmissão do sinal permite operar em valores de \gls{EbN0} menores em relação a não utilização do codificador, para a \gls{BER} visada pelo sistema, permitindo uso em ambientes com maior ruído para a mesma taxa de erro desejada.
+\noindent Assim, conforme o comparativo ilustrado na \autoref{fig:curva_bersnr} entre a transmissão \gls{QPSK} sem codificação e com codificação convolucional, o uso desta técnica na transmissão do sinal permite operar em valores de \gls{EbN0} menores em relação a não utilização do codificador, para a \gls{BER} visada pelo sistema, permitindo uso em ambientes com maior ruído para a mesma taxa de erro desejada.
 
 \begin{figure}[H]
 	\centering
-	\caption{Comparação de BER vs \gls{EbN0} utilizando codificação convolucional}\label{fig:decodificador_convolucional}
-	\includegraphics[width=\linewidth]{assets/convolutional.pdf}
+	\caption{Comparação de BER vs \gls{EbN0} utilizando codificação convolucional}\label{fig:curva_bersnr}
+	\includegraphics[width=\linewidth]{assets/cap2/bersnr.pdf}
 \end{figure}
