@@ -120,3 +120,156 @@ A sequência \gls{Sn} é separada em dois vetores distintos, \gls{SIn} e \gls{SQ
 \end{equation}
 
 \noindent Importante destacar que esta palavra não é codificada convolucionalmente ou embaralhada, sendo adicionada ao início do vetor de bits de cada canal após esses blocos.  \cite{cnes_services_and_message_formats_ed2_rev2_2006}. 
+
+\subsection{Datagrama}
+
+Após o envio da palavra de sincronismo, inicia-se a transmissão dos dados modulados. Esses dados são organizados segundo a estrutura definida pelo datagrama do padrão \gls{ARGOS-III}, que contém os campos responsáveis pela identificação da plataforma, carga útil de dados e controle de finalização, conforme apresentado na \autoref{fig:datagrama} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Estrutura do datagrama ARGOS-3}\label{fig:datagrama}
+	\includegraphics[width=\linewidth]{assets/datagrama.pdf}
+    
+\end{figure}
+
+\section{ESTRUTURA DE UM DATAGRAMA ARGOS-3}
+
+O datagrama transmitido no padrão \gls{ARGOS-III} possui uma estrutura bem definida, composta por campos de dados do usuário, que carregam as informações provenientes dos sensores da \gls{PCD}, e por campos de cabeçalho, responsáveis por identificar a estação transmissora e informar o comprimento total da mensagem. Esses campos incluem o identificador da PCD, o número de blocos de dados e um bit de paridade, que auxilia na verificação de integridade da informação. Essa organização permite que o sistema receptor interprete corretamente o conteúdo transmitido e associe os dados recebidos à plataforma correspondente.
+
+
+\subsection{Dados de aplicação}
+
+A primeira etapa na montagem do datagrama consiste na coleta dos dados de aplicação, isto é, os dados que efetivamente contêm informação dos sensores a serem transmitidos da \gls{PCD} para o satélite.
+
+\subsubsection{Sensores}
+
+Cada sensor presente nas \gls{PCD} gera um valor de oito bits correspondente à variável monitorada, possibilitando assim 256 ($2^8$) níveis de monitoramento para cada sensor. A PCD pode ser equipada com diferentes sensores, de acordo com o cenário de instalação e os parâmetros ambientais de interesse. 
+
+Entre os sensores comumente utilizados, destacam-se os de direção do vento ($^{\circ}$), precipitação (mm), pressão atmosférica (mB), radiação solar acumulada (MJ/m2), temperatura do ar ($^{\circ}\text{C}$), umidade relativa ($\%$), e velocidade do vento (m/s). Por exemplo, os dados \footnote{http://sinda.crn.inpe.br/PCD/SITE/novo/site/historico/action.php} coletados da PCD 31855 são mostrados no \autoref{quadro:dados-meteorologicos}.
+
+
+\begin{quadro}[ht]
+\caption{Dados meteorológicos da PCD 31855 (10/10/2007 - 11/10/2007)}\label{quadro:dados-meteorologicos}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccc}
+    \toprule
+    \textbf{DataHora} & \textbf{DirVento} & \textbf{Precip.} & \textbf{PressãoAtm} & \textbf{RadSolAcum} & \textbf{TempAr} & \textbf{UmidRel} & \textbf{VelVento} \\
+    \midrule
+    2007-11-10 21h & 0 & 0 & 945.5 & 2.3  & 30.8 & 25.6 & 0 \\
+    2007-11-10 18h & 0 & 0 & 943.8 & 8.75 & 36.5 & 20.8 & 0 \\
+    2007-11-10 15h & 0 & 0 & 947.3 & 9.72 & 33.6 & 28.8 & 0 \\
+    2007-11-10 12h & 0 & 0 & 950.1 & 4.98 & 28.0 & 51.2 & 0 \\
+    2007-11-10 09h & 0 & 0 & 949.3 & 0.17 & 20.9 & 60.8 & 0 \\
+    2007-11-10 06h & 0 & 0 & 947.8 & 0.00 & 21.8 & 52.8 & 0 \\
+    2007-11-10 03h & 0 & 0 & 948.0 & 0.00 & 23.5 & 40.0 & 0 \\
+    2007-11-10 00h & 0 & 0 & 948.4 & 0.00 & 21.9 & 35.2 & 0 \\
+    2007-11-09 21h & 0 & 0 & 946.1 & 0.48 & 30.8 & 20.8 & 0 \\
+    2007-11-09 18h & 0 & 0 & 945.1 & 9.13 & 36.3 & 16.0 & 0 \\
+    2007-11-09 15h & 0 & 0 & 948.4 & 10.13 & 34.5 & 22.4 & 0 \\
+    2007-11-09 12h & 0 & 0 & 950.9 & 3.44 & 28.5 & 46.4 & 0 \\
+    \bottomrule
+\end{tabular}
+}
+
+\end{quadro}
+
+
+\subsubsection{Blocos de dados}
+
+Os dados dos sensores são agrupados em conjuntos denominados `blocos de dados` contendo quatro sensores por bloco, conforme ilustrado na \autoref{fig:sensores_blocos}. Assim, cada bloco de dados possui 32 bits ($4 \cdot 8$ bits), sendo o valor mínimo de um bloco de dados para montar um datagrama \gls{PTT-A3} (exceto o primeiro bloco que possui apenas 24 bits de comprimento). Para o caso específico em que a PCD irá transmitir apenas um bloco, ela poderá abrigar apenas três sensores. Caso haja mais de um bloco, o comprimento é dado por $24 + (\text{\gls{Nb} - 1}) \cdot 32$ bits \textcite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Exemplo de agrupamento de sensores por bloco de dados}\label{fig:sensores_blocos}
+	\includegraphics[width=\linewidth]{assets/dados_app.pdf}
+\end{figure}
+
+
+\subsection{Tamanho de mensagem}
+
+O campo de tamanho de mensagem \gls{Tm} é utilizado para informar ao receptor quantos blocos de dados estão sendo transmitidos no datagrama, este campo é formado pelo número de blocos em formato binário \gls{Bm} e pelo bit de pariedade \gls{Pm} para fechar uma seção de 4 bits. Como cada bloco possui 32 bits (exceto o primeiro), é possivel determinar o comprimento total dos dados de aplicação de \gls{Bm} = ($N_b - 1)_{2}$. O número de blocos \gls{Nb}, pode variar de um a oito, resultando no compriemnto esperado de bits no receptor para cada caso, conforme o \autoref{quadro:comprimento-mensagem} abaixo. 
+
+\begin{quadro}[ht]
+    \caption{Comprimento em bits para cada tamanho de mensagem ($T_m$)}
+    \label{quadro:comprimento-mensagem}
+    \small 
+    \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X}
+        \toprule
+        \textbf{N° de Blocos} & \textbf{N° de Bits} & \textbf{$B_m$} & \textbf{$P_m$} & \textbf{$T_m$}\\
+        \midrule
+        1 & 24  & 000 & 0 & 0000\\
+        2 & 56  & 001 & 1 & 0011\\
+        3 & 88  & 010 & 0 & 0100\\
+        4 & 120 & 011 & 1 & 0111\\
+        5 & 152 & 100 & 0 & 1000\\
+        6 & 184 & 101 & 1 & 1011\\
+        7 & 216 & 110 & 0 & 1100\\
+        8 & 248 & 111 & 1 & 1111\\
+        \bottomrule
+    \end{tabularx}
+\end{quadro}
+
+Conforme apresentado acima, para cada valor de \gls{Bm}, um valor de \gls{Pm} é calculado. O bit de paridade é calculado de forma a garantir que o número total de bits '1' na mensagem seja par, e é dado por
+
+\vspace{-1em}
+\begin{equation}
+    P_m = 
+    \begin{cases}
+    1, & \text{se } \left[ \sum_{i=0}^{B_m} b_i = 0 \right]\mod 2  \\
+    0, & \text{se } \left[ \sum_{i=0}^{B_m} b_i = 1 \right]\mod 2 
+    \end{cases} \text{.}
+\end{equation}
+
+\noindent Ao final, o campo de tamanho de mensagem \gls{Tm} é formado pela concatenação do valor de \gls{Bm} e \gls{Pm}, resultando em um campo de 4 bits \textcite{cnes_services_and_message_formats_ed2_rev2_2006}. 
+
+
+\subsection{Identificador da PCD}
+
+O identificador da \gls{PCD}, \gls{pcdid}, é um campo de 28 bits presente na estrutura da mensagem do usuário no formato \gls{PTT-A3}. Ele é utilizado para identificar de forma única a \gls{PCD} que está transmitindo a mensagem, sendo essencial para o correto encaminhamento e associação dos dados recebidos no centro de controle do sistema \gls{ARGOS}, \textcite{cnes_services_and_message_formats_ed2_rev2_2006}. 
+
+O \gls{pcdid} é formado por um número de 20 bits, \gls{ipcd}, seguido por oito bits \gls{rpcd} de redundância calculados através da soma (checksum) dos bits do identificador, conforme
+
+\vspace{-1em}
+\begin{equation}
+R_{PCD} = \left( \sum_{i=0}^{19} I_{PCD} \cdot 2^i \right) \bmod 256 \text{ ,}
+\end{equation}
+\vspace{-0.2em}
+\begin{equation}
+    PCD_{ID} = I_{PCD} \oplus R_{PCD} \text{ .}
+\end{equation}
+
+\noindent   É importante destacar que a proteção contra erros nesse campo é assegurada de forma indireta pelo uso da codificação convolucional aplicada à mensagem como um todo, além da redundância oferecida pelo número de repetições da mensagem ao longo da passagem do satélite. 
+
+
+\subsection{Bits de fim de mensagem}
+
+Ao final do datagrama, são inseridos entre sete e nove bits '0' com a finalidade de limpar o registrador do codificador convolucional, dando o encerramento da sequência codificada. A quantidade de bits de fim de mensagem adicionados depende do comprimento total da mensagem do usuário, conforme apresentado na \autoref{quadro:bits-codificacao}. Apesar de não carregar dados úteis a nível de aplicação, esses bits são fundamentais para o correto funcionamento do processo de decodificação \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+
+\begin{quadro}[ht]
+    \caption{Bits adicionados às mensagens do usuário antes da codificação}
+    \label{quadro:bits-codificacao}
+    \small 
+    \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X 
+                                  >{\centering\arraybackslash}X}
+        \toprule
+        \textbf{N° de Blocos} & \textbf{Bits Aplicação} & \textbf{Bits Datagrama} & \textbf{N° bits "0"} \\
+        \midrule
+        1 &  24 &  56 & 7 \\
+        2 &  56 &  88 & 8 \\
+        3 &  88 & 120 & 9 \\
+        4 & 120 & 152 & 7 \\
+        5 & 152 & 184 & 8 \\
+        6 & 184 & 216 & 9 \\
+        7 & 216 & 248 & 7 \\
+        8 & 248 & 280 & 8 \\
+        \bottomrule
+    \end{tabularx}
+    
+\end{quadro}
+
