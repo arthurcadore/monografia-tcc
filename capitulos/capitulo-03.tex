@@ -114,7 +114,7 @@ A partir do sinal modulado \gls{st}, é possível observar a constelação do si
 
 \subsubsection{Adição de portadora pura}
 
-Ao se observar mais atentamente a \ref{fig:transmitter_modulator_time} e também \ref{fig:transmitter_formatter_time} pode-se notar que no inicio da transmissão, a componente \gls{dI} está com amplitude estável e proxima á $`1`$, enquanto que a componente \gls{dQ} está estável com amplitude igual a $`0`$, essa é configuração é proposital dentro do \gls{Pd} para que a sequência resultante modulada em banda passante tenha um periodo de fase estável, ou seja, uma portadora pura, antes do inicio da transmissão dos dados. O equacionamento para o período de portadora pura pode ser expresso como
+Ao se observar as figuras \ref{fig:transmitter_modulator_time} e \ref{fig:transmitter_formatter_time} pode-se notar que no inicio da transmissão, a componente \gls{dI} está com amplitude estável e proxima á $`1`$, enquanto que a componente \gls{dQ} está estável com amplitude igual a $`0`$, essa é configuração é proposital dentro do \gls{Pd} para que a sequência resultante modulada em banda passante tenha um periodo de fase estável, ou seja, uma portadora pura, antes do inicio da transmissão dos dados. O equacionamento para o período de portadora pura pode ser expresso como
 
 \begin{equation}
     s(t) = 1(t) \cdot \cos(2\pi f_c t) - 0(t) \cdot \sin(2\pi f_c t) \mapsto s(t) = \cos(2\pi f_c t)
