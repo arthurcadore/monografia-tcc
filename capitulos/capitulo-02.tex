@@ -103,9 +103,9 @@ A \autoref{fig:portadora_pura_freq} apresenta o sinal da portadora pura no espec
 O processo de detecção do sinal realizado pelo receptor monitora a presença de sinal que ultrapassa um determinado limiar, dessa forma é fundamental que no receptor o sinal esteja o mais concentrado e com a maior \gls{SNR} possível no momento da detecção, para que a frequência da portadora, \gls{fc}, seja identificada corretamente \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 
-\subsection{Palavra de sincronismo}
+\subsection{Palavra de sincronismo (preâmbulo)}\label{sec:preambulo}
 
-Logo após a portadora pura, é transmitida uma palavra de sincronismo de 30 bits (correspondente a 15 símbolos \gls{QPSK}), cuja função é auxiliar na identificação do início da mensagem codificada, possibilitando a sincronização para decisão. Essa sequência é conhecida e fixa entre transmissor e receptor, no caso do \gls{PTT-A3} sendo $S = \text{2BEEEEBF}_{16}$, o que permite alinhar corretamente a decisão e identificar o início do bloco de dados úteis. \cite{cnes_services_and_message_formats_ed2_rev2_2006}
+Logo após a portadora pura, é transmitida uma palavra de sincronismo de 30 bits (correspondente a 15 símbolos \gls{QPSK}), sendo fundamental para identificação do início da mensagem codificada, possibilitando a sincronização para decisão. Essa sequência é conhecida e fixa entre transmissor e receptor, no caso do \gls{PTT-A3} sendo $S = \text{2BEEEEBF}_{16}$, o que permite alinhar corretamente a decisão e identificar o início do bloco de dados úteis. \cite{cnes_services_and_message_formats_ed2_rev2_2006}
 
 A sequência \gls{Sn} é separada em dois vetores distintos, \gls{SIn} e \gls{SQn}, por meio de uma intercalação simples de seus bits. O processo de intercalação consiste em distribuir os bits de forma alternada entre os canais \gls{SIn} e \gls{SQn}, resultando em duas sequências de 15 bits cada, que serão transmitida como preâmbulo \cite{cnes_services_and_message_formats_ed2_rev2_2006}, usando a sequência padrão do \gls{ARGOS-III} podemos representar como
 
@@ -120,7 +120,7 @@ A sequência \gls{Sn} é separada em dois vetores distintos, \gls{SIn} e \gls{SQ
 
 \noindent Importante destacar que esta palavra não é codificada convolucionalmente ou embaralhada, sendo adicionada ao início do vetor de bits de cada canal após esses blocos.  \cite{cnes_services_and_message_formats_ed2_rev2_2006}. 
 
-\subsection{Datagrama}
+\subsection{Datagrama}\label{sec:datagrama}
 
 Após o envio da palavra de sincronismo, inicia-se a transmissão dos dados modulados. Esses dados são organizados segundo a estrutura definida pelo datagrama do padrão \gls{ARGOS-III}, que contém os campos responsáveis pela identificação da plataforma, carga útil de dados e controle de finalização, conforme apresentado na \autoref{fig:datagram} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
@@ -285,7 +285,7 @@ Na \autoref{fig:diagrama_transmissor} ilustra-se o diagrama de blocos do transmi
 \end{figure}
 
 
-\subsection{Codificador convolucional}
+\subsection{Codificador convolucional}\label{sec:conv_coding}
 
 Antes da transmissão, os dados do datagrama precisam ser codificados, e esse processo é realizado através de um codificador convolucional. Essa técnica de codificação aplica uma operação lógica sobre uma janela deslizante de bits de entrada \gls{ut}, gerando uma sequência de saída com redundância controlada. Diferente da codificação por bloco, onde os dados são processados em blocos fixos, a codificação convolucional considera a sequência contínua de bits, combinando o bit atual com um número fixo de bits anteriores através de vetores geradores \cite{shu2011error}.
 
@@ -343,7 +343,7 @@ O embaralhador é utilizado para garantir que os dados sejam melhor distribuído
 \end{figure}
 
 
-\subsection{Codificação de Linha}
+\subsection{Codificação de Linha}\label{sec:line_coding}
 
 Em seguida, os vetores de bits embaralhados \gls{Xn} e \gls{Yn}, já multiplexados com os vetores de preâmbulo \gls{SIn} e \gls{SQn},precisam ser convertidos em vetores de simbolos, para isso é aplicada uma codificação de linha. O vetor \gls{Xn} é codificado utilizando a técnica \gls{NRZ}, enquanto o vetor \gls{Yn} é codificado utilizando a técnica \gls{Manchester} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
@@ -377,7 +377,7 @@ Y[n] =
 \end{figure}
 
 
-\subsection{Modulação de Pulso}
+\subsection{Modulação de Pulso}\label{sec:pulse_modulation}
 
 Uma vez com os vetores de simbolo \gls{In} e \gls{Qn}, é aplicada a modulação de pulso, isto é, os vetores de simbolo são superamostrados, em função de \gls{fs} e filtrados para formar uma sequência contínua de símbolos ao longo de \gls{t}, onde cada bit de informação é transmitido durante um período de tempo $\text{ \gls{Tb}} = 1/ \text{\gls{Rb}}$ (tempo de bit), definido com base na taxa de bit \gls{Rb} \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
