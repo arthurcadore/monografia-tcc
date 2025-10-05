@@ -18,6 +18,16 @@
 {fc}
 {\ensuremath{f_c}}
 
+% f_c' - frequência da portadora detectada
+\glsxtrnewsymbol[description={Frequência da portadora detectada}]
+{fcprime}
+{\ensuremath{f_c'}}
+
+% st' - 
+\glsxtrnewsymbol[description={Segmento de sinal modulado em banda passante, em função de tempo $t$}]
+{stprime}
+{\ensuremath{s'(t)}}
+
 % f_n nominal frequency
 \glsxtrnewsymbol[description={$f_c$ randômica selecionada pela PCD, $401.620 \leq f_n \leq 401.650\,\text{MHz}$ (ARGOS-3)}]
 {fn}
@@ -49,9 +59,14 @@
 {\ensuremath{P_t}}
 
 % m - índice de amostra
-\glsxtrnewsymbol[description={Índice de amostra do segmento de sinal}]
+\glsxtrnewsymbol[description={Índice de segmento de sinal}]
 {m}
 {\ensuremath{m}}
+
+% Nc - número de vezes que a portadora precisa ser detectada para iniciar a recepção
+\glsxtrnewsymbol[description={Número de detecções minima para ser considerada como "confirmada", $N_c = 4$}]
+{Nc}
+{\ensuremath{N_c}}
 
 % T_s - tempo de decisão
 \glsxtrnewsymbol[description={Tempo de decisão, $T_s = 10\,\text{ms}$}]
@@ -82,6 +97,11 @@
 \glsxtrnewsymbol[description={\textit{Energy per bit to noise power spectral density ratio}}]
 {EbN0}
 {\ensuremath{E_b/N_0}}
+
+% sigma2 - variância do ruído
+\glsxtrnewsymbol[description={Variância do ruído adicionado ao sinal modulado}]
+{sigma2}
+{\ensuremath{\sigma^2}}
 
 % Pd - Prefix duration
 \glsxtrnewsymbol[description={Duração do prefixo de símbolos para portadora pura, $P_d = f_s * \approx 0.082$ (ARGOS-3)}]
@@ -185,23 +205,33 @@
 
 % dI' - sinal demodulado, canal $I$
 \glsxtrnewsymbol[description={Sinal demodulado em banda base, canal $I$}]
-{dIprime}
-{\ensuremath{d_I'(t)}}
+{dXprime}
+{\ensuremath{d_X'(t)}}
 
 % dQ' - sinal demodulado, canal $Q$
 \glsxtrnewsymbol[description={Sinal demodulado em banda base, canal $Q$}]
-{dQprime}
-{\ensuremath{d_Q'(t)}}
+{dYprime}
+{\ensuremath{d_Y'(t)}}
 
 % dX't - componente demodulada correspondente ao, canal $I$
 \glsxtrnewsymbol[description={Sinal filtrado (filtragem passa baixa), canal $I$}]
-{dXt}
-{\ensuremath{d_X'(t)}}
+{dIprime}
+{\ensuremath{d_I'(t)}}
 
 % dY't - componente demodulada correspondente ao, canal $Q$
 \glsxtrnewsymbol[description={Sinal filtrado (filtragem passa baixa), canal $Q$}]
-{dYt}
-{\ensuremath{d_Y'(t)}}
+{dQprime}
+{\ensuremath{d_Q'(t)}}
+
+% kmax - índice de amostra de maior correlação com o preâmbulo
+\glsxtrnewsymbol[description={Índice de amostra de maior correlação com o preâmbulo}]
+{kmax}
+{\ensuremath{k_{max}}}
+
+% L_sync - tamanho do preâmbulo em amostras 
+\glsxtrnewsymbol[description={Tamanho do preâmbulo em bits, $L_{sync} = 15$ (ARGOS-3)}]
+{Lsync}
+{\ensuremath{L_{sync}}}
 
 % I' - sinal demodulado, canal $I$
 \glsxtrnewsymbol[description={Sinal filtrado (filtragem casada), canal $I$}]
@@ -277,6 +307,11 @@
 \glsxtrnewsymbol[description={Vetor de entrada do codificador convolucional}]
 {ut}
 {\ensuremath{u_t}}
+
+% u_t', vetor de saída do decodificador convolucional
+\glsxtrnewsymbol[description={Vetor de saída do decodificador convolucional}]
+{utprime}
+{\ensuremath{u_t'}}
 
 % v_t^{0}, vetor de saída I do codificador convolucional
 \glsxtrnewsymbol[description={Saída do codificador convolucional correspondente a $G_0$}]

@@ -186,7 +186,7 @@ Os dados dos sensores são agrupados em conjuntos denominados `blocos de dados` 
 
 \subsection{Tamanho de mensagem}
 
-O campo de tamanho de mensagem \gls{Tm} é utilizado para informar ao receptor quantos blocos de dados estão sendo transmitidos no datagrama, este campo é formado pelo número de blocos em formato binário \gls{Bm} e pelo bit de pariedade \gls{Pm} para fechar uma seção de 4 bits. Como cada bloco possui 32 bits (exceto o primeiro), é possivel determinar o comprimento total dos dados de aplicação de \gls{Bm} = ($N_b - 1)_{2}$. O número de blocos \gls{Nb}, pode variar de um a oito, resultando no compriemnto esperado de bits no receptor para cada caso, conforme o \autoref{quadro:comprimento-mensagem} abaixo. 
+O campo de tamanho de mensagem \gls{Tm} é utilizado para informar ao receptor quantos blocos de dados estão sendo transmitidos no datagrama, este campo é formado pelo número de blocos em formato binário \gls{Bm} e pelo bit de pariedade \gls{Pm} para fechar uma seção de 4 bits. Como cada bloco possui 32 bits (exceto o primeiro), é possivel determinar o comprimento total dos dados de aplicação de \gls{Bm} = ($N_b - 1)_{2}$. O número de blocos \gls{Nb}, pode variar de um a oito, resultando no compriemnto esperado de bits no receptor para cada caso, conforme o \autoref{quadro:comprimento-mensagem}. 
 
 \begin{quadro}[H]
     \caption{Comprimento em bits para cada tamanho de mensagem ($T_m$)}
@@ -438,7 +438,7 @@ A \autoref{fig:iq_modulation} ilustra o processo de modulação IQ, mostrando os
 
 A constelação \gls{QPSK} na \autoref{fig:iq_modulation} é composta por quatro pontos, cada qual representando um símbolo distinto. Os símbolos são mapeados de acordo com os pares de bits \gls{dI} e \gls{dQ}. Após a transmissão, o sinal \gls{st} é somado a um vetor de ruído \gls{rt} para simular as condições reais no momento da recepção.
 
-\section{RECEPTOR PTT-A3}
+\section{RECEPTOR PTT-A3}\label{sec:receptor}
 
 Como a transmissão dos dados das \gls{PCD} não segue uma estrutura de canais discretos, ou seja, cada \gls{PCD} seleciona uma frequência \gls{fn} dentro da faixa de $401,62$ a $401,65MHz$ e realiza a transmissão. Dessa forma, o receptor no satélite necessita de um mecanismo de detecção de portadora para avaliar as candidatas de \gls{fc}, podendo assim demodular o sinal.
 
@@ -483,7 +483,7 @@ Por fim, no proximo segmento, $X_{n+1}[k]$, o sistema verifica se a frequência 
 
 \subsection{Demodulador banda base}
 
-Para realizar a demodulação do sinal \gls{st} recebido retornando as componentes \gls{dXt} e \gls{dYt} em banda base, o sinal \gls{st} é multiplicado por duas portadoras ortogonais, \gls{xi} para demodular o canal \gls{cI} e \gls{yq} para demodular o canal \gls{cQ}. Assumindo sincronismo perfeito, o processo de demodulação para o canal \gls{cI} pode ser expresso como
+Para realizar a demodulação do sinal \gls{st} recebido retornando as componentes \gls{dXprime} e \gls{dYprime} em banda base, o sinal \gls{st} é multiplicado por duas portadoras ortogonais, \gls{xi} para demodular o canal \gls{cI} e \gls{yq} para demodular o canal \gls{cQ}. Assumindo sincronismo perfeito, o processo de demodulação para o canal \gls{cI} pode ser expresso como
 
 \vspace{-1.2em}
 \begin{equation}
@@ -524,11 +524,11 @@ A \autoref{fig:iq_demodulation} ilustra o processo de demodulação dos canais \
 \end{figure}
 
 
-\subsection{Filtragem passa baixa e filtragem casada}
+\subsection{Filtragem passa baixa e filtragem casada}\label{sec:filtering}
 
 Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $1,5$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
 
-A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dIprime} e \gls{dQprime} antes e após a filtragem passa-baixa, bem como a resposta ao impulso \gls{ht} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base.
+A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dXprime} e \gls{dYprime} antes e após a filtragem passa-baixa, bem como a resposta ao impulso \gls{ht} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base.
 
 \begin{figure}[H]
 	\centering
@@ -562,7 +562,7 @@ A \autoref{fig:matchedfilter} apresenta o espectro dos sinais \gls{Iprime} e \gl
 
 \subsection{Decisão de simbolos}
 
-Uma vez com os sinais \gls{dIprime} e \gls{dQprime} filtrados, considerando sincronismo perfeito, o próximo passo é a decisão dos sinais em instantes de \gls{Tb} (instante ótimo de decisão) a partir de um delay inicial \gls{tau}, para recuperar os símbolos transmitidos. O processo de decisão pode ser expresso como
+Uma vez com os sinais \gls{dXprime} e \gls{dYprime} filtrados, considerando sincronismo perfeito, o próximo passo é a decisão dos sinais em instantes de \gls{Tb} (instante ótimo de decisão) a partir de um delay inicial \gls{tau}, para recuperar os símbolos transmitidos. O processo de decisão pode ser expresso como
 
 \vspace{-1em}
 \begin{equation}
@@ -642,7 +642,7 @@ O processo de desembaralhamento retorna os vetores de bit, \gls{vt0prime} e \gls
 
 \subsection{Decodificador convolucional}
 
-Após o desembaralhamento, os vetores \gls{vt0prime} e \gls{vt1prime} estão prontos para a decodificação convolucional. O algoritmo mais popularmente utilizado para essa etapa é o algoritmo de Viterbi, que implementa a decodificação \gls{MLD} para códigos convolucionais, calculando o caminho mais provável através de \gls{Hamming} para a mensagem recebida em relação à mensagem possível \cite{cnes_services_and_message_formats_ed2_rev2_2006, rodrigues_demodulador_2018}.
+Após o desembaralhamento, os vetores \gls{vt0prime} e \gls{vt1prime} estão prontos para a decodificação convolucional para obter novamente a sequência \gls{utprime} correspondente ao vetor de bits do datagrama. O algoritmo mais popularmente utilizado para essa etapa é o algoritmo de Viterbi, que implementa a decodificação \gls{MLD} para códigos convolucionais, calculando o caminho mais provável através de \gls{Hamming} para a mensagem recebida em relação à mensagem possível \cite{cnes_services_and_message_formats_ed2_rev2_2006, rodrigues_demodulador_2018}.
 
 No padrão \gls{ARGOS-III}, o código convolucional utilizado segue o padrão \gls{CCSDS} 131.1-G-2, que, por sua vez, possui uma distância livre conhecida de $\text{\gls{dfree}} = 10$. Quanto maior for o valor de \gls{dfree}, maior será a robustez do código e sua capacidade de detectar e corrigir erros.
 
