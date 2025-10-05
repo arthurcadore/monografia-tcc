@@ -1,5 +1,13 @@
 \chapter{CONCLUSÃO}\label{cap:conclusao}
 
+O desenvolvimento e a simulação do sistema de comunicação compatível com o padrão \gls{PTT-A3} do \gls{ARGOS-III} permitiram compreender de forma detalhada o funcionamento de cada etapa da cadeia de transmissão e recepção. A modelagem proposta para o simulador abordou desde a geração do streambits do datagrama e a codificação convolucional até a modulação \gls{QPSK}, modelagem de canal, detecção de portadora e toda a cadeia de recepção utilizada no lado do satélite para recepção dos sinais transmitidos pelas \gls{PCD}. Essa abordagem possibilitou avaliar o desempenho do sistema em condições controladas de ruído e interferência. 
+
+Os resultados demonstraram que o uso combinado de modulação \gls{QPSK}, codificação convolucional e embaralhamento de dados proporciona ganhos significativos em robustez e confiabilidade, em relação a modulação \gls{QPSK} pura. A presença dessas técnicas reduz a \gls{BER} em regimes de baixa \gls{SNR} mostrando a importância da codificação de canal. Além disso, a análise do sinal no tempo e frequência confirmou que o formato do sinal transmitido está de acordo com as especificações do padrão \gls{PTT-A3}, assegurando a compatibilidade do modelo implementado com sistemas reais de coleta de dados ambientais \cite{cnes_services_and_message_formats_ed2_rev2_2006}
+
+Durante o processo de simulação, verificou-se que a implementação proposta oferece grande flexibilidade para experimentação e aprimoramento. O ambiente desenvolvido em Python permite a rápida reconfiguração de parâmetros, como taxa de bits, filtros de pulso e limiares de detecção, facilitando o estudo de diferentes cenários operacionais. Essa modularidade torna o simulador uma ferramenta útil tanto para fins de pesquisa quanto para atividades de ensino relacionadas à comunicação digital e à engenharia de sistemas espaciais.
+
+Por fim, o trabalho atingiu seu objetivo principal de reproduzir e analisar o comportamento do sistema de transmissão \gls{ARGOS-III}, contribuindo para o domínio nacional das tecnologias envolvidas na recepção de dados ambientais via satélite. As propostas de trabalhos futuros, incluindo a aplicação de modelos de canal mais realistas, a implementação de decodificação Viterbi com soft-decision e o estudo de desempenho \gls{BER} vs \gls{EbN0}, abrem caminhos para melhorar o simulador como uma plataforma de estudos.
+
 \subsection{Trabalhos futuros}
 
 Com o desenvolvimento do projeto, alguns pontos que podem ser melhorados foram identificados: 

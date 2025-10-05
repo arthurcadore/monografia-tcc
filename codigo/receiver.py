@@ -3,7 +3,6 @@ import numpy as np
 
 datagramTX = argos3.Datagram(pcdnum=1234, numblocks=1)
 t, s = argos3.Transmitter().transmit(datagramTX)
-
 datagramRX, success = argos3.Receiver().receive(s)
 print(datagramRX.parse_datagram())
 {
