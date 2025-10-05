@@ -7,7 +7,8 @@
 		\setentrycounter[]{page}\glsnumberformat{32}}}\glsgroupskip
 \glsgroupheading{B}\relax \glsresetentrylist %
 \glossentry{BER}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{41}}}%
+		\setentrycounter[]{page}\glsnumberformat{41}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{72}}}%
 \glossentry{Bm}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{27}}}%
 \glossentry{bps}{\glossaryentrynumbers{\relax 
@@ -60,7 +61,8 @@
 \glossentry{EbN0}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{8}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{41\delimN 42}\delimN 
-		\setentrycounter[]{page}\glsnumberformat{52}}}%
+		\setentrycounter[]{page}\glsnumberformat{52}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{72}}}%
 \glossentry{Em}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{43}}}\glsgroupskip
 \glsgroupheading{F}\relax \glsresetentrylist %
