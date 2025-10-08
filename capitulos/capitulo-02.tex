@@ -97,10 +97,10 @@ A \autoref{fig:portadora_pura_freq} apresenta o sinal da portadora pura no espec
 \begin{figure}[H]
 	\centering
 	\caption{Comparação de portadora pura e sinal modulado}\label{fig:portadora_pura_freq}
-	\includegraphics[width=\linewidth]{assets/cap2/carrier_spectra.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/transmitter_modulator_portadora.pdf}
 \end{figure}
 
-O processo de detecção do sinal realizado pelo receptor monitora a presença de sinal que ultrapassa um determinado limiar, dessa forma é fundamental que no receptor o sinal esteja o mais concentrado e com a maior \gls{SNR} possível no momento da detecção, para que a frequência da portadora, \gls{fc}, seja identificada corretamente \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
+O processo de detecção do sinal realizado pelo receptor monitora a presença de sinal que ultrapassa um determinado limiar (\gls{Pt}), dessa forma é fundamental que no receptor o sinal esteja o mais concentrado e com a maior \gls{SNR} possível no momento da detecção, para que a frequência da portadora, \gls{fc}, seja identificada corretamente \cite{cnes_services_and_message_formats_ed2_rev2_2006}.
 
 
 \subsection{Palavra de sincronismo (preâmbulo)}\label{sec:preambulo}
@@ -333,15 +333,28 @@ Os vetores geradores são utilizados para definir a estrutura do registrado do c
 
 Após a codificação convolucional, os vetores de saída \gls{vt0} e \gls{vt1} são embaralhados para evitar padrões repetitivos, formando os vetores embaralhados \gls{Xn} e \gls{Yn}. O processo de embaralhamento é essencial para aumentar a robustez do sinal contra interferências e ruídos em rajada, pois os dados são espalhados ao longo da transmissão.
 
-O embaralhador é utilizado para garantir que os dados sejam melhor distribuídos diminuindo a correlação entre os bits de forma a aumentar a aleatoriedade antes da modulação \gls{QPSK}, o que permite atingir uma melhor característica espectral. Esse processo pode ser representado pelo diagrama de blocos apresentado na \autoref{fig:embaralhador} \cite{cnes_services_and_message_formats_ed2_rev2_2006, rodrigues_demodulador_2018}.
+O embaralhador é implementado utilizando um registrador de deslocamento de 3 bits para cada canal, conforme apresentado na \autoref{fig:embaralhador}, A cada novo bit de entrada, o registrador é deslocado, e o bit de saida calculado através de uma multiplexação entre as três saidas possiveis. Desta forma o index de embaralhamento de uma sequência de entrada é dado por
+
+\vspace{-1em}
+\begin{equation}
+    \begin{bmatrix}
+        X_1 & X_2 & X_3 & X_4 & X_5 & X_6 & \dots \\
+        Y_1 & Y_2 & Y_3 & Y_4 & Y_5 & Y_6 & \dots \\
+    \end{bmatrix}
+    \mapsto 
+    \begin{bmatrix}
+        Y_1 & X_2 & Y_2 & Y_4 & X_5 & Y_5 & \dots \\
+        X_1 & X_3 & Y_3 & X_4 & X_6 & Y_6 & \dots \\ 
+    \end{bmatrix}
+\end{equation}
+
+\noindent Onde \gls{Xn} e \gls{Yn} são os vetores de bits embaralhados. O embaralhador é utilizado para garantir que os dados sejam melhor distribuídos diminuindo a correlação entre os bits de forma a aumentar a aleatoriedade antes da modulação \gls{QPSK}, o que permite atingir uma melhor característica espectral. Esse processo pode ser representado pelo diagrama de blocos apresentado na \autoref{fig:embaralhador} \cite{cnes_services_and_message_formats_ed2_rev2_2006, rodrigues_demodulador_2018}.
 
 \begin{figure}[H]
 	\centering
 	\caption{Embaralhador de dados para o ARGOS-3}\label{fig:embaralhador}
 	\includegraphics[width=\linewidth]{assets/cap2/scrambler.pdf}
-    
 \end{figure}
-
 
 \subsection{Codificação de Linha}\label{sec:line_coding}
 
@@ -373,7 +386,7 @@ Y[n] =
 \begin{figure}[H]
 	\centering
 	\caption{Codificação de linha dos vetores I e Q}\label{fig:line_coding}
-	\includegraphics[width=\linewidth]{assets/cap2/line_coding.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/example_encoder_time.pdf}
 \end{figure}
 
 
@@ -398,16 +411,23 @@ Para aplicar a modulação de pulso e gerar os sinais analógicos \gls{dI} e \gl
     g(t) = \frac{(1-\alpha) \text{sinc}((1- \alpha) t / T_b) + \alpha(4/\pi) \cos(\pi(1 + \alpha)t/T_b) }{1 - (4\alpha )^2}
 \end{equation}
 
-\noindent onde \gls{alpha} é o fator de roll-off do pulso, que controla a largura de banda \gls{W} do sinal modulado. Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}.
+\noindent onde \gls{alpha} é o fator de roll-off do pulso, que controla a largura de banda \gls{W} do sinal modulado. 
 
 A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:pulse_modulate}, onde a resposta ao impulso \gls{gt} é apresentada em conjunto com os sinais \gls{dI} e \gls{dQ}. 
 
 \begin{figure}[H]
 	\caption{Modulação de pulso dos canais $I$ e $Q$}\label{fig:pulse_modulate}
-	\includegraphics[width=\linewidth]{assets/cap2/pulse_modulate.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/example_formatter_comp_rrc.pdf}
 \end{figure}
 
+Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}. A \autoref{fig:formatter_comp} apresenta a comparação entre os sinais \gls{dI} e \gls{dQ} quando utilizada e quando não é aplicada a modulação de pulso, ou seja, quando o vetor de simbolos é apenas superamostrado. 
 
+\begin{figure}[H]
+	\caption{Comparação entre $I$ e $Q$ com e sem modulação de pulso}\label{fig:formatter_comp}
+	\includegraphics[width=\linewidth]{assets/cap2/example_formatter_comp.pdf}
+\end{figure}
+
+Nota-se que sem a modulação de pulso, o sinal apresenta transições abruptas entre os símbolos, o que pode gerar interferência entre símbolos adjacentes \gls{ISI} e aumentar a largura de banda do sinal transmitido. Já com a modulação de pulso, o sinal é suavizado no dominio do tempo, reduzindo a interferência entre símbolos e ajustando a largura de banda do sinal conforme os parâmetros do modulador de pulso \cite{cnes_services_and_message_formats_ed2_rev2_2006,10555531840,rodrigues_demodulador_2018}.
 
 \subsection{Modulação em banda passante} 
 
@@ -426,17 +446,15 @@ No processo de modulação QPSK, o sinal em fase \gls{dI} é multiplicado por um
     s(t) = A d_I'(t) \cos(2\pi f_c t + \phi_0) - Ad_Q'(t) \sin(2\pi f_c t + \phi_0) \text{ ,}
 \end{equation}
 
-\noindent onde \gls{A} é a amplitude do sinal modulado, \gls{fc} é a frequência da portadora, em torno de $401,625$ \gls{mhz} e \gls{phi0} é o desvio de fase inicial do sinal, que é considerado como zero ($\phi_0 = 0$).
-
-A \autoref{fig:iq_modulation} ilustra o processo de modulação IQ, mostrando os sinais \gls{dI} e \gls{dQ} e a constelação resultante dos símbolos \gls{QPSK} no plano complexo, onde cada ponto representa um símbolo modulado.
+\noindent onde \gls{A} é a amplitude do sinal modulado, \gls{fc} é a frequência da portadora, em torno de $401,625$ \gls{mhz} e \gls{phi0} é o desvio de fase inicial do sinal, que é considerado como zero ($\phi_0 = 0$). A \autoref{fig:iq_modulation} ilustra o processo de modulação IQ, mostrando os sinais \gls{dI} e \gls{dQ} e a constelação resultante, onde cada ponto representa um símbolo modulado.
 
 \begin{figure}[H]
 	\centering
 	\caption{Modulação em banda passante dos canais $I$ e $Q$}\label{fig:iq_modulation}
-	\includegraphics[width=\linewidth]{assets/cap2/iq_modulation.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/transmitter_modulator_time_comp.pdf}
 \end{figure}
 
-A constelação \gls{QPSK} na \autoref{fig:iq_modulation} é composta por quatro pontos, cada qual representando um símbolo distinto. Os símbolos são mapeados de acordo com os pares de bits \gls{dI} e \gls{dQ}. Após a transmissão, o sinal \gls{st} é somado a um vetor de ruído \gls{rt} para simular as condições reais no momento da recepção.
+A constelação \gls{QPSK} na \autoref{fig:iq_modulation} mapea cada par de amostra dos vetores \gls{dI} e \gls{dQ} no plano complexo ($I + jQ$). Após a transmissão, o sinal \gls{st} é somado a um vetor de ruído \gls{rt} para simular as condições reais no momento da recepção.
 
 \section{RECEPTOR PTT-A3}\label{sec:receptor}
 
@@ -520,20 +538,52 @@ A \autoref{fig:iq_demodulation} ilustra o processo de demodulação dos canais \
 \begin{figure}[H]
 	\centering
 	\caption{Componentes $I$ e $Q$ após demodulação}\label{fig:iq_demodulation}
-	\includegraphics[width=\linewidth]{assets/cap2/iq_demodulation.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/receiver_demodulator_freq.pdf}
 \end{figure}
 
 
 \subsection{Filtragem passa baixa}\label{sec:filtering}
 
-Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $1,5$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
+Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $0,6$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
 
-A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dXprime} e \gls{dYprime} antes e após a filtragem passa-baixa, bem como a resposta ao impulso \gls{ht} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base.
+O filtro Butterworth é escolhido por sua resposta em frequência plana e sem ondulações (ganhos ou atenuações) na banda passante, o que é ideal para preservar a integridade do sinal que está passando pelo filtro, neste caso como é um filtro passa baixa, o sinal que está em banda base. A aplicação do filtro \gls{LPF} aos sinais \gls{dXprime} e \gls{dYprime} pode ser expressa como
+
+\vspace{-1em}
+\begin{equation}
+    \begin{array}{c@{\quad\text{e}\quad}c}
+        d_I'(t) = d_X'(t) * h(t) &
+        d_Q'(t) = d_Y'(t) * h(t)
+    \end{array} \text{ ,}
+\end{equation}
+
+\noindent onde $*$ representa a operação de convolução entre os sinais \gls{dXprime} e \gls{dYprime} com a resposta ao impulso do filtro \gls{ht}. A resposta ao impulso do filtro \gls{ht} é dada por
+
+\vspace{-1em}
+\begin{equation}
+    h(t) = \mathcal{F}^{-1}\{H(f)\} \text{ ,}
+\end{equation}
+
+\noindent onde $\mathcal{F}^{-1}$ é a transformada inversa de Fourier e \gls{Hf} é a resposta em frequência do filtro Butterworth, definida por
+
+\vspace{-1em}
+\begin{equation}
+    H(f) = \frac{1}{\sqrt{1 + \left(\frac{f}{f_c}\right)^{2n}}} \text{ ,}
+\end{equation}
+
+\noindent onde \gls{n} é a ordem do filtro (neste caso, $n=6$) e \gls{fc} é a frequência de corte do filtro, definida como $0,6$ \gls{khz}. Os polos e zeros do filtro Butterworth também podem ser calculados com base na função de transferência \gls{Hs} do filtro, conforme apresentado na \autoref{fig:butterworth_poles} \cite{10555531840}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Polos e zeros do filtro Passa Baixa}\label{fig:butterworth_poles}
+    \includegraphics[width=0.8\linewidth]{assets/cap2/example_lpf_pz.pdf}
+\end{figure}
+
+A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dXprime} e \gls{dYprime} antes e após a filtragem passa-baixa, bem como a resposta em frequência \gls{Hf} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base, além da frequência de corte do filtro (onde a atenuação alcança $-3$ \gls{db}).
 
 \begin{figure}[H]
 	\centering
 	\caption{Componentes $I$ $Q$ após filtragem passa baixa}\label{fig:lowpassfilter}
-	\includegraphics[width=\linewidth]{assets/cap2/lowpassfilter.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/receiver_lpf_freq.pdf}
 \end{figure}
 
 \subsection{Filtragem casada}
@@ -556,7 +606,7 @@ A \autoref{fig:matchedfilter} apresenta o espectro dos sinais \gls{Iprime} e \gl
 \begin{figure}[H]
 	\centering
 	\caption{Componentes $I$ e $Q$ após filtragem casada}\label{fig:matchedfilter}
-	\includegraphics[width=\linewidth]{assets/cap2/matchedfilter.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/example_mf_time_comp.pdf}
 \end{figure}
 
 
@@ -576,7 +626,7 @@ Uma vez com os sinais \gls{dXprime} e \gls{dYprime} filtrados, considerando sinc
 \begin{figure}[H]
 	\centering
 	\caption{Amostragem das componentes $I$ e $Q$}\label{fig:sampling}
-	\includegraphics[width=\linewidth]{assets/cap2/sampling.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/example_sampler_time.pdf}
     
 \end{figure}
 
