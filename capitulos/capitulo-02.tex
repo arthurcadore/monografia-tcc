@@ -423,7 +423,7 @@ A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:puls
 Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}. A \autoref{fig:formatter_comp} apresenta a comparação entre os sinais \gls{dI} e \gls{dQ} quando é aplicada a modulação de pulso com pulso \gls{RRC} e \gls{Rect}, ou seja, quando o vetor de simbolos é apenas superamostrado. 
 
 \begin{figure}[H]
-	\caption{Comparação entre $I$ e $Q$ com e sem modulação de pulso}\label{fig:formatter_comp}
+	\caption{Comparação entre modulação de pulso \gls{RRC} e \gls{Rect}}\label{fig:formatter_comp}
 	\includegraphics[width=\linewidth]{assets/cap2/example_formatter_comp.pdf}
 \end{figure}
 
@@ -450,7 +450,12 @@ Dessa forma, podemos calcular a banda passante unilateral do sinal modulado \gls
     W_{Rect} = \frac{1}{T_b} \text{ .}
 \end{equation}
 
-\noindent Assim, a largura de banda \gls{W} do sinal modulado em \gls{RRC} considerando uma taxa de bits \gls{Tb} = $1 / 400$ e um fator de roll-off $\alpha = 0,8$ é de 360 \gls{Hz} (banda unilateral), ou seja, 720 \gls{Hz} de banda total (bilateral), em contraste com os 800 \gls{Hz} de banda (bilateral) do sinal modulado em \gls{Rect}. 
+\noindent Assim, a largura de banda \gls{W} do sinal modulado em \gls{RRC} considerando uma taxa de bits \gls{Tb} = $1 / 400$ e um fator de roll-off $\alpha = 0{,}8$ é de 360 \gls{hz} (banda unilateral), ou seja, $2W = 720 \text{\gls{hz}}$ de banda bilateral, em contraste com os 800 \gls{hz} de banda (bilateral) do sinal modulado em \gls{Rect}. Na \autoref{fig:formatter_freq_comp} é possível observar a diferença na banda consumida pelos sinais \gls{dI} e \gls{dQ} após a modulação de pulso sobre os canais.
+
+\begin{figure}[H]
+	\caption{Banda consumida nos canais $I$ e $Q$}\label{fig:formatter_freq_comp}
+	\includegraphics[width=\linewidth]{assets/cap2/example_formatter_freq_comp.pdf}
+\end{figure}
 
 \subsection{Modulação em banda passante} 
 
@@ -567,7 +572,7 @@ A \autoref{fig:iq_demodulation} ilustra o processo de demodulação dos canais \
 
 \subsection{Filtragem passa baixa}\label{sec:filtering}
 
-Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $720$ \gls{Hz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
+Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $720$ \gls{hz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
 
 O filtro Butterworth é escolhido por sua resposta em frequência plana e sem ondulações (ganhos ou atenuações) na banda passante, o que é ideal para preservar a integridade do sinal que está passando pelo filtro, neste caso como é um filtro passa baixa, o sinal que está em banda base. A aplicação do filtro \gls{LPF} aos sinais \gls{dXprime} e \gls{dYprime} pode ser expressa como
 
@@ -593,12 +598,21 @@ O filtro Butterworth é escolhido por sua resposta em frequência plana e sem on
     H(f) = \frac{1}{\sqrt{1 + \left(\frac{f}{f_c}\right)^{2n}}} \text{ ,}
 \end{equation}
 
-\noindent onde \gls{n} é a ordem do filtro (neste caso, $n=6$) e \gls{fc} é a frequência de corte do filtro, definida como $720$ \gls{Hz}. Os polos e zeros do filtro Butterworth também podem ser calculados com base na função de transferência \gls{Hs} do filtro, conforme apresentado na \autoref{fig:butterworth_poles} \cite{10555531840}.
+\noindent onde \gls{n} é a ordem do filtro (neste caso, $n=6$) e \gls{fc} é a frequência de corte do filtro, definida como $720$ \gls{hz}. 
+
+
+Os polos e zeros do filtro Butterworth também podem ser calculados com base na função de transferência discreta \gls{Hz} do filtro. O calculo dos coeficientes de \gls{Hz} do filtro foram realizados utilizando a biblioteca \textit{scipy.signal} do Python, que implementa o método de bilinearização para a conversão da função de transferência contínua \gls{Hs} para o dominio discreto, a função de transferência discreta é dada por
+
+\begin{equation}
+    H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2} + ... + b_m z^{-m}}{a_0 + a_1 z^{-1} + a_2 z^{-2} + ... + a_n z^{-n}} \text{ ,}
+\end{equation}
+
+\noindent onde $b_0$, $b_1$, ..., $b_m$ são os coeficientes do numerador (zeros) e $a_0$, $a_1$, ..., $a_n$ são os coeficientes do denominador (polos) da função de transferência do filtro digital, assim podemos plotar os coeficientes de \gls{Hz} no plano complexo, conforme apresentado na \autoref{fig:butterworth_poles} \cite{10555531840}.
 
 \begin{figure}[H]
     \centering
     \caption{Polos e zeros do filtro Passa Baixa}\label{fig:butterworth_poles}
-    \includegraphics[width=0.7\linewidth]{assets/cap2/example_lpf_pz.pdf}
+    \includegraphics[width=0.6\linewidth]{assets/cap2/example_lpf_pz.pdf}
 \end{figure}
 
 A \autoref{fig:lowpassfilter} apresenta o espectro dos sinais \gls{dXprime} e \gls{dYprime} antes e após a filtragem passa-baixa, bem como a resposta em frequência \gls{Hf} do filtro, onde é possível observar a remoção das componentes de alta frequência, deixando apenas os sinais em banda base, além da frequência de corte do filtro (onde a atenuação alcança $-3$ \gls{db}).
@@ -671,7 +685,7 @@ Os valores amostrados \gls{Inprime} e \gls{Qnprime} são então decididos, isto 
 \begin{figure}[H]
 	\centering
 	\caption{Comparação dos vetores $I$ e $Q$ decididos com vetores transmitidos}\label{fig:comparacao_bits}
-	\includegraphics[width=\linewidth]{assets/cap2/comparacao_bits.pdf}
+	\includegraphics[width=\linewidth]{assets/cap2/example_sampler_symbols.pdf}
 \end{figure}
 
 \subsection{Decodificador de linha}
