@@ -420,14 +420,21 @@ A formatação dos vetores \gls{In} e \gls{Qn} é ilustrada na \autoref{fig:puls
 	\includegraphics[width=\linewidth]{assets/cap2/example_formatter_comp_rrc.pdf}
 \end{figure}
 
-Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}. A \autoref{fig:formatter_comp} apresenta a comparação entre os sinais \gls{dI} e \gls{dQ} quando utilizada e quando não é aplicada a modulação de pulso, ou seja, quando o vetor de simbolos é apenas superamostrado. 
+Quanto maior o \gls{alpha}, mais suave é a transição entre os símbolos, mas também maior é a largura de banda ocupada \cite{10555531840}. A \autoref{fig:formatter_comp} apresenta a comparação entre os sinais \gls{dI} e \gls{dQ} quando é aplicada a modulação de pulso com pulso \gls{RRC} e \gls{Rect}, ou seja, quando o vetor de simbolos é apenas superamostrado. 
 
 \begin{figure}[H]
 	\caption{Comparação entre $I$ e $Q$ com e sem modulação de pulso}\label{fig:formatter_comp}
 	\includegraphics[width=\linewidth]{assets/cap2/example_formatter_comp.pdf}
 \end{figure}
 
-Nota-se que sem a modulação de pulso, o sinal apresenta transições abruptas entre os símbolos, o que pode gerar interferência entre símbolos adjacentes \gls{ISI} e aumentar a largura de banda do sinal transmitido. Já com a modulação de pulso, o sinal é suavizado no dominio do tempo, reduzindo a interferência entre símbolos e ajustando a largura de banda do sinal conforme os parâmetros do modulador de pulso \cite{cnes_services_and_message_formats_ed2_rev2_2006,10555531840,rodrigues_demodulador_2018}.
+Nota-se que utilizando formatação \gls{Rect}, o sinal apresenta transições abruptas entre os símbolos, o que pode gerar interferência entre símbolos adjacentes \gls{ISI} e aumentar a largura de banda do sinal transmitido, a resposta ao impulso do pulso \gls{Rect} é dada por
+
+\vspace{-1em}
+\begin{equation}
+    g(t) = \text{rect}\left(\frac{t}{T_b}\right)
+\end{equation}
+
+\noindent onde, \gls{gt} é a resposta ao impulso da função, \gls{t} é o vetor de tempo e \gls{Tb} é o período de bit. Já com a modulação de pulso, o sinal é suavizado no dominio do tempo, reduzindo a interferência entre símbolos e ajustando a largura de banda do sinal conforme os parâmetros do modulador de pulso \cite{cnes_services_and_message_formats_ed2_rev2_2006,10555531840,rodrigues_demodulador_2018}.
 
 \subsection{Modulação em banda passante} 
 
@@ -544,7 +551,7 @@ A \autoref{fig:iq_demodulation} ilustra o processo de demodulação dos canais \
 
 \subsection{Filtragem passa baixa}\label{sec:filtering}
 
-Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $0,6$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
+Para isolar os sinais em banda base \gls{dIprime} e \gls{dQprime}, é necessário aplicar um \gls{LPF}, para isso utiliza-se um filtro Butterworth (6ª Ordem) com frequência de corte de $0{,}6$ \gls{khz}, com resposta ao impulso \gls{ht}, que remove as componentes de alta frequência em $2 \cdot \text{\gls{fc}}$ resultantes da multiplicação de demodulação realizada anteriormente \cite{rodrigues_demodulador_2018}.
 
 O filtro Butterworth é escolhido por sua resposta em frequência plana e sem ondulações (ganhos ou atenuações) na banda passante, o que é ideal para preservar a integridade do sinal que está passando pelo filtro, neste caso como é um filtro passa baixa, o sinal que está em banda base. A aplicação do filtro \gls{LPF} aos sinais \gls{dXprime} e \gls{dYprime} pode ser expressa como
 
