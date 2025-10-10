@@ -68,7 +68,13 @@ Já o pulso \gls{Manchester} é gerado através de uma soma de dois pulsos \gls{
 g_{MAN}(t) = g_{RRC}(t + T_b/2) - g_{RRC}(t - T_b/2)
 \end{equation}
 
-Onde $g_{MAN}(t)$ é o pulso Manchester, $g_{RRC}(t)$ é o pulso RRC e $T_b$ é o tempo de bit. A resposta ao impulso do filtro \gls{Manchester} é ilustrada na \autoref{fig:impulse_response_man}.
+Onde $g_{MAN}(t)$ é o pulso Manchester, $g_{RRC}(t)$ é o pulso RRC e $T_b$ é o tempo de bit. A banda do pulso \gls{Manchester} é o dobro da banda do pulso \gls{RRC}, seguindo a expressão 
+
+\begin{equation}
+W_{MAN} = 2 \cdot \frac{1 + \alpha}{T_b}
+\end{equation}
+
+\noindent Onde $W_{MAN}$ é a largura de banda (unilateral) do pulso \gls{Manchester}, $\alpha$ é o fator de roll-off do pulso \gls{RRC} e $T_b$ é o tempo de bit. Assim, a largura de banda \gls{W} do sinal modulado em \gls{Manchester} considerando um tempo de bits $T_b = 1/400$ e um fator de roll-off $\beta = 0.8$, é de $720 Hz$ (unilateral), ou seja, $2W = 1440 Hz$ (bilateral). A resposta ao impulso do filtro \gls{Manchester} é ilustrada na \autoref{fig:impulse_response_man}.
 
 \begin{figure}[H]
 	\centering
@@ -90,7 +96,7 @@ O resultado são as sequências \gls{dI} e \gls{dQ} contínuas ao longo do tempo
 	\includegraphics[width=\linewidth]{assets/cap3/transmitter_formatter_time_comp.pdf}
 \end{figure}
 
-As sequências \gls{dI} e \gls{dQ} estão agora prontas para serem moduladas em banda passante utilizando modulação em fase em quadratura (\gls{QPSK}), conforme detalhado na seção \ref{sec:qpsk}.
+Além da mudança nas caracteristicas do sinal no dominio do tempo, pode-se observar também a mudança no espectro do sinal, onde é possível observar a largura de banda \gls{W} do sinal, conforme ilustrado detalhado na seção \ref{sec:pulse_modulation}.  As sequências \gls{dI} e \gls{dQ} estão agora prontas para serem moduladas em banda passante utilizando modulação em fase em quadratura (\gls{QPSK}), conforme detalhado na seção \ref{sec:qpsk}. 
 
 \subsection{Modulação em fase em quadratura (QPSK)}\label{sec:qpsk}
 

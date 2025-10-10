@@ -262,7 +262,8 @@
 \glsgroupheading{W}\relax \glsresetentrylist %
 \glossentry{W}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{34\delimR 36}\delimN 
-		\setentrycounter[]{page}\glsnumberformat{49}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{49\delimN 50}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{52}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{59}}}\glsgroupskip
 \glsgroupheading{X}\relax \glsresetentrylist %
 \glossentry{xi}{\glossaryentrynumbers{\relax 
