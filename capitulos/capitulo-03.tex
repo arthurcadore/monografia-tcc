@@ -187,7 +187,7 @@ Com as múltiplas transmissões e o ruído adicionados ao canal, o próximo pass
 
 \subsection{Segmentação do sinal recebido}\label{sec:segmentacao}
 
-O primeiro passo na detecção de portadora é a segmentação do sinal recebido \gls{rt} em segmentos \gls{xn} de duração \gls{Tm}, conforme detalhado na seção \ref{sec:detector}. Cada segmento é então analisado individualmente para identificar a potência \gls{Pnk} de cada componente \gls{k} de cada segmento \gls{m}, formando assim uma matriz $m \times k$, podendo ser representado como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall}.
+O primeiro passo na detecção de portadora é a segmentação do sinal recebido \gls{rt} em segmentos \gls{xn} de duração \gls{Tm}, conforme detalhado na seção \ref{sec:detector}. Cada segmento é então analisado individualmente para identificar a potência \gls{Pnk} de cada componente \gls{k} de cada segmento \gls{m}, formando assim uma matriz $m \times k$, ou \gls{waterfall}, podendo ser representado como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall}.
 
 \begin{figure}[H]
 	\centering
@@ -207,7 +207,17 @@ Para cada segmento \gls{xn}, as componentes \gls{Pnk} são comparadas com o limi
 	\includegraphics[width=\linewidth]{assets/cap3/example_detector_freq.pdf}
 \end{figure}
 
-Além disso, quando uma componente é detectada múltiplas vezes concecutivas, essa componente é considerada como "confirmada", ou seja, é uma componente que provavelmente corresponde a uma portadora válida, a quantidade de vezes consecutivas que uma componente deve ser detectada para ser considerada como confirmada é definida pelo parâmetro \gls{Nc}. A matriz de componentes detectadas e confirmadas pode ser representada como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall_detection}.
+Além disso, quando uma componente é detectada múltiplas vezes concecutivas, essa componente é considerada como "confirmada", ou seja, é uma componente que provavelmente corresponde a uma portadora válida, a quantidade de vezes consecutivas que uma componente deve ser detectada para ser considerada como confirmada é definida pelo parâmetro \gls{Nc}, esse processo pode ser expresso como
+
+\begin{equation}
+	x[k,m](\text{confirmada}) =
+	\begin{cases} 
+		1, & \text{se } \displaystyle\sum_{i=-N_c + 1}^{0} {x}[k,m+i] = N_c \\[8pt]
+		0, & \text{caso contrário}
+	\end{cases} \text{,}
+\end{equation}
+
+\noindent Onde $x[k,m](\text{confirmada})$ é a componente que foi confirmada no indice \gls{k}, ${x}[m,k]$ é a componente detectada no segmento \gls{m} e indice \gls{k}, e $N_c$ é o número de confirmações consecutivas necessárias para considerar a componente como confirmada. A matriz de componentes detectadas e confirmadas pode ser representada como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall_detection}.
 
 \begin{figure}[H]
 	\centering
@@ -219,7 +229,21 @@ No simulador, \gls{Nc} é fixado em $4$, por ser metade do comprimento da portad
 
 \subsection{Decisão de componentes detectadas}\label{sec:decisao}
 
-Com base na matriz de componentes confirmadas, o próximo passo é a decisão sobre quais componentes serão efetivamente consideradas como portadoras válidas para recepção. A decisão é baseada na continuidade da detecção de componentes ao longo dos segmentos, assim a primeira componente confirmada sobre a frequência \gls{fcprime} é considerada como o inicio de uma transmissão, a partir dela, é aplicado um span, isto é, um intervalo de amostras no mesmo segmento onde são ignoradas novas detecções, esse span tem largura \gls{W}, e é aplicado consecutivamente até o fim das detecções sobre a frequência \gls{fcprime}. A decisão de componentes detectadas é ilustrada na \autoref{fig:waterfall_decision}.
+Com base na matriz de componentes confirmadas, o próximo passo é a decisão sobre quais componentes serão efetivamente consideradas como transmissões válidas para recepção. A decisão é baseada na continuidade da detecção de componentes ao longo dos segmentos, assim a primeira componente confirmada em $k = \text{\gls{fcprime}}$ no segmento $\text{\gls{m}} = S_{\text{ini}}$ é considerada como o inicio de uma transmissão. 
+
+A partir dela, é aplicado um "span", isto é, uma proteção para ignorar qualquer detecção, de largura \gls{W} sobre amostras em $f_c' - W$ e $f_c' + W$, do segmento $S_{ini}$ até o fim das detecções sobre a frequência \gls{fcprime} com o objetivo de evitar falsas recepções do próprio sinal que já foi confirmado sobre $S_{ini}$. A aplicação do span sobre as amostras detectadas é dada por
+
+\begin{equation}
+	x'[k,m] =
+	\begin{cases}
+		0, & \text{se } (f_c' - W) < k < (f_c' + W)
+		\text{ e } x[f_c',m] = 1 \\[8pt]
+		x[k,m], & \text{caso contrário.}
+	\end{cases} \text{,}
+\end{equation}
+
+
+\noindent Onde $x[k,m]$ é a componente no indice \gls{k} e segmento \gls{m} (valido para qualquer $m$ a partir de $S_{ini}$), $f_c'$ é a frequência da portadora detectada, e $W$ é a largura de banda do sinal transmitido. A decisão de componentes detectadas pode ser representada como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall_decision}.
 
 \begin{figure}[H]
 	\centering
