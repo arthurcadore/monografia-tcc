@@ -4,7 +4,7 @@ Este capítulo apresenta a implementação do sistema de comunicação digital p
 
 \section{CADEIA DE TRANSMISSÃO}\label{sec:transmissao}
 
-A primeira etapa do sistema é a geração da sequência de bits que compõem o datagrama ARGOS-3, conforme descrito na Seção \ref{sec:datagrama}. Essa sequência é multiplexada com um preâmbulo para permitir a sincronização de simbolos no receptor. Em seguida, os bits são codificados utilizando codificação de linha para melhorar as caracteristicas espectrais do sinal modulado, como detalhado na Seção \ref{sec:line_coding}.
+A primeira etapa do sistema é a geração da sequência de bits que compõem o datagrama ARGOS-3, conforme descrito na Seção \ref{sec:datagrama}. Essa sequência é multiplexada com um preâmbulo para permitir a sincronização de símbolos no receptor. Em seguida, os bits são codificados utilizando codificação de linha para melhorar as características espectrais do sinal modulado, como detalhado na Seção \ref{sec:line_coding}.
 
 \subsection{Sequência de transmissão}\label{sec:geracao_bits}
 
@@ -40,11 +40,11 @@ Em seguida, os bits são codificados utilizando codificação de linha para melh
 	\includegraphics[width=\linewidth]{assets/cap3/transmitter_encoder_time.pdf}
 \end{figure}
 
-As sequências de simbolos \gls{In} e \gls{Qn} resultantes da codificação de linha, estão prontas para serem moduladas utilizando modulação de pulso. 
+As sequências de símbolos \gls{In} e \gls{Qn} resultantes da codificação de linha, estão prontas para serem moduladas utilizando modulação de pulso. 
 
 \subsection{Modulação de pulso RRC e Manchester}
 
-Após a montagem das sequências de simbolos \gls{In} e \gls{Qn}, o próximo passo é a modulação de pulso, onde o canal \gls{cI} utiliza um filtro de pulso \gls{RRC} e o canal \gls{cQ} utiliza um filtro de pulso \gls{Manchester}, conforme detalhado na seção \ref{sec:line_coding}. A modulação de pulso é fundamental para reduzir a largura de banda \gls{W} do sinal que está sendo transmitido e também reduzir a interferência entre símbolos \gls{ISI}. O processo de modulação de pulso dos canais \gls{cI} e \gls{cQ} é ilustrado na \autoref{fig:pulse_modulate_diagram}.
+Após a montagem das sequências de símbolos \gls{In} e \gls{Qn}, o próximo passo é a modulação de pulso, onde o canal \gls{cI} utiliza um filtro de pulso \gls{RRC} e o canal \gls{cQ} utiliza um filtro de pulso \gls{Manchester}, conforme detalhado na seção \ref{sec:line_coding}. A modulação de pulso é fundamental para reduzir a largura de banda \gls{W} do sinal que está sendo transmitido e também reduzir a interferência entre símbolos \gls{ISI}. O processo de modulação de pulso dos canais \gls{cI} e \gls{cQ} é ilustrado na \autoref{fig:pulse_modulate_diagram}.
 
 \begin{figure}[H]
     \centering
@@ -80,7 +80,7 @@ A utilização do pulso \gls{Manchester} no canal \gls{cQ} ao invés da codifica
 
 \subsubsection{Modulação de pulso dos canais I e Q}
 
-Uma vez com os filtros de pulso \gls{RRC} e \gls{Manchester} gerados, é possível aplicar a modulação de pulso nos canais \gls{cI} e \gls{cQ}, respectivamente gerando os sinais \gls{dI} e \gls{dQ} modulados em banda base. Esse processo envolve a superamostragem dos vetores de simbolos \gls{In} e \gls{Qn}, em função da frequência de amostragem \gls{fs}, seguida da filtragem com os respectivos filtros de pulso. 
+Uma vez com os filtros de pulso \gls{RRC} e \gls{Manchester} gerados, é possível aplicar a modulação de pulso nos canais \gls{cI} e \gls{cQ}, respectivamente gerando os sinais \gls{dI} e \gls{dQ} modulados em banda base. Esse processo envolve a superamostragem dos vetores de símbolos \gls{In} e \gls{Qn}, em função da frequência de amostragem \gls{fs}, seguida da filtragem com os respectivos filtros de pulso. 
 
 O resultado são as sequências \gls{dI} e \gls{dQ} contínuas ao longo do tempo \gls{t}, onde cada bit de informação é transmitido durante um período de tempo $\text{ \gls{Tb}} = 1/ \text{\gls{Rb}}$ (tempo de bit), definido com base na taxa de bit \gls{Rb}. A modulação de pulso dos canais \gls{cI} e \gls{cQ} é ilustrada na \autoref{fig:transmitter_formatter_time}.
 
@@ -133,7 +133,7 @@ Com o sinal modulado em banda passante \gls{st} conforme definido acima, podemos
 \section{CANAL E ADIÇÃO DE RUÍDO}\label{sec:canal}
 
 
-Após a modulação do sinal \gls{st} em banda passante, o próximo passo é a transmissão através do canal de comunicação, que permite a adição de multiplas transmissões simultâneas e a introdução de ruído \gls{AWGN} ao sinal transmitido. O diagrama de blocos do canal é ilustrado na \autoref{fig:channel_diagram}.
+Após a modulação do sinal \gls{st} em banda passante, o próximo passo é a transmissão através do canal de comunicação, que permite a adição de múltiplas transmissões simultâneas e a introdução de ruído \gls{AWGN} ao sinal transmitido. O diagrama de blocos do canal é ilustrado na \autoref{fig:channel_diagram}.
 
 \begin{figure}[H]
 	\centering
@@ -147,7 +147,7 @@ O modelo de canal é instânciado com base na \gls{fs} e na duração desejada p
 
 \begin{figure}[H]
 	\centering
-	\caption{Adição de multiplas transmissões no canal}\label{fig:channel_time}
+	\caption{Adição de múltiplas transmissões no canal}\label{fig:channel_time}
 	\includegraphics[width=\linewidth]{assets/cap3/example_channel_time_subchannels.pdf}
 \end{figure}
 
@@ -171,7 +171,7 @@ Uma vez com as transmissões adicionadas ao canal, o próximo passo é a geraç�
 
 \section{DETECÇÃO DE PORTADORA}\label{sec:detector}
 
-Com as multiplas transmissões e o ruído adicionados ao canal, o proximo passo é a detecção das portadoras presentes no canal para posterior recepção. A detecção de portadora é realizada através de um processo de segmentação do sinal recebido em segmentos \gls{xn}, análise do espectro de cada segmento para identificação de componentes com potência acima de um limiar definido \gls{Pt}, e decisão sobre quais componentes serão consideradas como portadoras válidas. O diagrama de blocos do detector é ilustrado na \autoref{fig:detector_diagram}.
+Com as múltiplas transmissões e o ruído adicionados ao canal, o próximo passo é a detecção das portadoras presentes no canal para posterior recepção. A detecção de portadora é realizada através de um processo de segmentação do sinal recebido em segmentos \gls{xn}, análise do espectro de cada segmento para identificação de componentes com potência acima de um limiar definido \gls{Pt}, e decisão sobre quais componentes serão consideradas como portadoras válidas. O diagrama de blocos do detector é ilustrado na \autoref{fig:detector_diagram}.
 
 \begin{figure}[H]
 	\centering
@@ -201,7 +201,7 @@ Para cada segmento \gls{xn}, as componentes \gls{Pnk} são comparadas com o limi
 	\includegraphics[width=\linewidth]{assets/cap3/example_detector_freq.pdf}
 \end{figure}
 
-Além disso, quando uma componente é detectada multiplas vezes concecutivas, essa componente é considerada como "confirmada", ou seja, é uma componente que provavelmente corresponde a uma portadora válida, a quantidade de vezes consecutivas que uma componente deve ser detectada para ser considerada como confirmada é definida pelo parâmetro \gls{Nc}. A matriz de componentes detectadas e confirmadas pode ser representada como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall_detection}.
+Além disso, quando uma componente é detectada múltiplas vezes concecutivas, essa componente é considerada como "confirmada", ou seja, é uma componente que provavelmente corresponde a uma portadora válida, a quantidade de vezes consecutivas que uma componente deve ser detectada para ser considerada como confirmada é definida pelo parâmetro \gls{Nc}. A matriz de componentes detectadas e confirmadas pode ser representada como um diagrama waterfall, conforme ilustrado na \autoref{fig:waterfall_detection}.
 
 \begin{figure}[H]
 	\centering
@@ -243,7 +243,7 @@ O primeiro passo na cadeia de recepção é a demodulação do sinal recebido \g
 
 \subsection{Filtragem}\label{sec:filtragem}
 
-Após a demodulação, o próximo passo é a filtragem dos canais \gls{cI} e \gls{cQ} para remover as componentes de alta frequência geradas no processo de demodulação, bem como reduzir o máximo posivel ruído presente em cada canal. A filtragem é realizada em duas etapas, primeiramente uma filtragem passa baixa para remover as componentes de alta frequência, conforme detalhado na seção \ref{sec:filtering}, resultando nos sinais \gls{dIprime} e \gls{dQprime}, conforme ilustrado na \autoref{fig:receiver_lpf}.
+Após a demodulação, o próximo passo é a filtragem dos canais \gls{cI} e \gls{cQ} para remover as componentes de alta frequência geradas no processo de demodulação, bem como reduzir o máximo possível ruído presente em cada canal. A filtragem é realizada em duas etapas, primeiramente uma filtragem passa baixa para remover as componentes de alta frequência, conforme detalhado na seção \ref{sec:filtering}, resultando nos sinais \gls{dIprime} e \gls{dQprime}, conforme ilustrado na \autoref{fig:receiver_lpf}.
 
 \begin{figure}[H]
 	\centering

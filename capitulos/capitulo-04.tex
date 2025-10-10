@@ -11,12 +11,18 @@ Por fim, o trabalho atingiu seu objetivo principal de reproduzir e analisar o co
 \subsection{Trabalhos futuros}
 
 Com o desenvolvimento do projeto, alguns pontos que podem ser melhorados foram identificados: 
+
 \begin{itemize}
-    \item Aplicar técnicas de filtragem para a matriz de detecção, eliminando ruidos detectados e mantendo apenas as transmissões de interesse; 
-    \item Alterar cadeia de recepção invertendo a ordem do decodificador convolucional para trabalhar com viterbi soft-decision;
-    \item Aplicar modelagem de canal mais realista, adicionando desvio de frequência e efeito Doppler;
+    \item Aplicar técnicas de filtragem para a matriz de detecção, eliminando ruídos detectados e mantendo apenas as transmissões de interesse; 
+    \item Alterar cadeia de recepção invertendo a ordem do decodificador convolucional para trabalhar com Viterbi soft-decision;
+    \item Aplicar modelagem de canal mais realista, adicionando desvio de frequência e efeito Doppler, implementar sincronização de fase por PLL;
     \item Aplicar modelagem de canal mais realista, adicionando atenuação por distância e ACG (Automatic Gain Control);
-    \item Realizar comparativo de desempenho da curva $BER \times E_b/N_0$ variândo parâmetros do sistema, como palavra de sincronismo, vetores geradores, tipo de codificação de linha, tipo de modulação de pulso, etc.
+    \item Aplicar modelagem de canal não-linear (transmissão por amplificadores reais), simulando efeitos de distorção;
+    \item Realizar comparativo de desempenho da curva $BER \times E_b/N_0$ variando parâmetros do sistema, como palavra de sincronismo, vetores geradores, tipo de codificação de linha, tipo de modulação de pulso, etc;
     \item Implementar suporte a realtime nas classes do simulador, para possibilitar a integração com \gls{SDR};
     \item Implementar o sistema em GNU Radio, utilizando \gls{SDR} para validação do modelo proposto;
+    \item Implementar blocos do codificador convolucional e modulador \gls{QPSK} em VHDL;
+    \item Analisar de eficiência energética e consumo de potência do sistema, otimizar consumo para aplicações em \gls{PCD};
+    \item Simulação de tráfego de múltiplos dispositivos (colisões de uplink), avaliando impacto na performance do sistema, e calcular a densidade máxima de dispositivos suportada em uma determinada região para a passada do satélite;
+    \item Analisar modulações alternativas, como $8-PSK$ e $16-QAM$, avaliando custo beneficio da eficiência espectral, robustez e complexidade de implementação em relação ao \gls{QPSK};
 \end{itemize}
